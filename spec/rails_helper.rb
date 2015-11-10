@@ -53,8 +53,8 @@ end
 
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
-    with.testframework :rspec
-    with.library :activerecord
+    with.test_framework :rspec
+    with.library :active_record
     with.library :rails
   end
 end
