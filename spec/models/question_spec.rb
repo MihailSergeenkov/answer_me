@@ -11,15 +11,6 @@ RSpec.describe Question, type: :model do
   end
 
   context 'Validates association with answers' do
-    it { should have_many :answer }
     it { should have_many(:answer).dependent :destroy }
   end
-
-#  it 'validates presence of title' do
-#    expect(Question.new(body: "I don't know")).to_not be_valid
-#  end
-#
-#  it 'validates presence of body' do
-#    expect(Question.new(title: 'Help me!')).to_not be_valid
-#  end
 end
