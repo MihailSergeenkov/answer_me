@@ -22,9 +22,9 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
-# Используем шаблонизатор slim
+# Use slim
 gem 'slim-rails'
-# Используем bootstrap
+# Use bootstrap
 gem 'twitter-bootstrap-rails'
 gem 'less-rails'
 gem 'therubyracer'
@@ -41,13 +41,13 @@ gem 'therubyracer'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-  # Используем для тестирования rspec и factory girl
+  # Use rspec и factory girl for tests
   gem 'rspec-rails'
   gem 'factory_girl_rails'
 end
 
 group :test do
-  # Используем для тестирования shoulda-matchers
+  # Use shoulda-matchers for tests
   gem 'shoulda-matchers'
 end
 
