@@ -11,6 +11,6 @@ RSpec.describe Question, type: :model do
   end
 
   context 'Validates association with answers' do
-    it { should have_many(:answer).dependent :destroy }
+    it { should have_many(:answers).dependent :destroy }
   end
 end
