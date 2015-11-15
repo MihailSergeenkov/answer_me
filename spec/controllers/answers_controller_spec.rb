@@ -56,7 +56,7 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with invalid attributes' do
       it 'does not save the databse' do
-        expect { post :create, question_id: question, answer: attributes_for(:invalid_answer) }.to_not change(question.answers, :count)
+        expect { post :create, question_id: question, answer: attributes_for(:invalid_answer) }.to_not change(Answer, :count)
       end
 
       it 're-render new view' do
@@ -96,6 +96,19 @@ RSpec.describe AnswersController, type: :controller do
       it 're-render edit view' do
         expect(response).to render_template :edit
       end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    before { answer }
+
+    it 'delete answer' do
+      expect { delete :destroy, id: answer, question_id: question }.to change(question.answers, :count).by(-1)
+    end
+
+    it 'redirect to question index view' do
+      delete :destroy, id: answer, question_id: question
+      expect(response).to redirect_to question
     end
   end
 end
