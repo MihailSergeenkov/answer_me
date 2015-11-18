@@ -19,8 +19,9 @@ class QuestionsController < ApplicationController
     @question = Question.new(question_params)
 
     if @question.save
-      redirect_to @question
+      redirect_to @question, notice: 'Thanks! Your question is saved!'
     else
+      flash.now[:notice] = 'Please, enter the correct data!'
       render :new
     end
   end
