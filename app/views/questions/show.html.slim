@@ -2,3 +2,4 @@ h2
   = @question.title
 p class='lead'
   = @question.body
+= link_to 'Create Your Answer', new_question_answer_path(@question)

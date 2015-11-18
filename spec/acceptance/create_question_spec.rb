@@ -3,7 +3,6 @@ require 'rails_helper'
 feature 'User create question', %q{
   I want to ask question
 } do
-  #scenario "expects implementation"
 
   scenario 'User try to create question' do
     visit new_question_path
@@ -40,5 +39,4 @@ feature 'User create question', %q{
     expect(current_path).to eq questions_path
     expect(page).to have_content 'Please, enter the correct data!'
   end
-
 end

@@ -1,0 +1,14 @@
+h1 Quetions list
+
+table class='table table-striped table-hover'
+  thead
+    tr
+      th Quetions
+      th colspan='2'
+  tbody
+    - @questions.each do |question|
+      tr
+        td 
+          = question.title
+        td
+          = question.body
