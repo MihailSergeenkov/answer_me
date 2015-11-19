@@ -18,6 +18,7 @@ class AnswersController < ApplicationController
     if @answer.save
       redirect_to @question
     else
+      flash.now[:notice] = 'Please, enter the correct data!'
       render :new
     end
   end

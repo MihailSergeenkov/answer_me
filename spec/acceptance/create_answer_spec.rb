@@ -31,5 +31,6 @@ feature 'User create answer', %q{
     click_on 'Post Your Answer'
 
     expect(current_path).to eq question_answers_path(Question.last.id)
+    expect(page).to have_content 'Please, enter the correct data!'
   end
 end
