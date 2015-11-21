@@ -5,24 +5,22 @@ feature 'User looking questions list', %q{
   I want to see the list of questions
 } do
 
+  given(:user) { create(:user) }
+  given(:question) { build(:question) }
+  given(:second_question) { build(:question) }
+
   scenario "User try to see the list of questions" do
-    visit new_question_path
-    fill_in 'Title', with: 'My question'
-    fill_in 'Body', with: 'Body of question'
+    sign_in(user)
 
-    click_on 'Post Your Question'
+    create_question(question)
 
-    visit new_question_path
-    fill_in 'Title', with: 'My question 2'
-    fill_in 'Body', with: 'Body of question 2'
-
-    click_on 'Post Your Question'
+    create_question(second_question)
 
     visit questions_path
 
-    expect(page).to have_content 'My question'
-    expect(page).to have_content 'Body of question'
-    expect(page).to have_content 'My question 2'
-    expect(page).to have_content 'Body of question 2'
+    expect(page).to have_content question.title
+    expect(page).to have_content question.body
+    expect(page).to have_content second_question.title
+    expect(page).to have_content second_question.body
   end
 end

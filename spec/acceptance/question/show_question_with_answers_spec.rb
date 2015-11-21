@@ -5,25 +5,20 @@ feature 'User looking question with answers list', %q{
   I want to see the question with list of answers
 } do
 
+  given(:user) { create(:user) }
+  given(:question) { build(:question) }
+
   scenario 'User try see the question with list of answers' do
-    visit new_question_path
-    fill_in 'Title', with: 'My question'
-    fill_in 'Body', with: 'Body of question'
+    sign_in(user)
 
-    click_on 'Post Your Question'
+    create_question(question)
+    create_and_post_answer
+    create_and_post_answer(2)
 
-    click_on 'Create Your Answer'
-    fill_in 'Body', with: 'Body of answer the question'
-    click_on 'Post Your Answer'
-
-    click_on 'Create Your Answer'
-    fill_in 'Body', with: 'Body of second answer the question'
-    click_on 'Post Your Answer'
-
-    expect(page).to have_content 'My question'
-    expect(page).to have_content 'Body of question'
+    expect(page).to have_content question.title
+    expect(page).to have_content question.body
     expect(page).to have_content 'Answers'
     expect(page).to have_content 'Body of answer the question'
-    expect(page).to have_content 'Body of second answer the question'
+    expect(page).to have_content 'Body of 2nd answer the question'
   end
 end

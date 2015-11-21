@@ -5,26 +5,22 @@ feature 'User create answer', %q{
   I want to answer the question
 } do
 
+  given(:user) { create(:user) }
+  given(:question) { build(:question) }
+
   scenario 'User try to create answer the question' do
-    visit new_question_path
-    fill_in 'Title', with: 'My question'
-    fill_in 'Body', with: 'Body of question'
+    sign_in(user)
 
-    click_on 'Post Your Question'
-
-    click_on 'Create Your Answer'
-    fill_in 'Body', with: 'Body of answer the question'
-    click_on 'Post Your Answer'
+    create_question(question)
+    create_and_post_answer
 
     expect(current_path).to eq question_path(Question.last.id)
   end
 
   scenario 'User try to create answer the question with empty body' do
-    visit new_question_path
-    fill_in 'Title', with: 'My question'
-    fill_in 'Body', with: 'Body of question'
+    sign_in(user)
 
-    click_on 'Post Your Question'
+    create_question(question)
 
     click_on 'Create Your Answer'
     fill_in 'Body', with: nil
