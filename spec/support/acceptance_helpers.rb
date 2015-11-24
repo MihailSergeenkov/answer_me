@@ -28,7 +28,6 @@ module AcceptanceHelpers
   end
 
   def create_and_post_answer(number = nil)
-    click_on 'Create Your Answer'
     fill_in 'Body', with: "Body of #{number && number.ordinalize} answer the question"
     click_on 'Post Your Answer'
   end

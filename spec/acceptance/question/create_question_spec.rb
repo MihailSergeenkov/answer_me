@@ -16,6 +16,8 @@ feature 'User create question', %q{
 
     expect(current_path).to eq question_path(Question.last.id)
     expect(page).to have_content 'Thanks! Your question is saved!'
+    expect(page).to have_content question.title
+    expect(page).to have_content question.body
   end
 
   scenario 'Authenticated user try to create question with empty title' do
@@ -26,21 +28,6 @@ feature 'User create question', %q{
     click_on 'Ask question'
     fill_in 'Title', with: nil
     fill_in 'Body', with: 'Body of question'
-
-    click_on 'Post Your Question'
-
-    expect(current_path).to eq questions_path
-    expect(page).to have_content 'Please, enter the correct data!'
-  end
-
-  scenario 'Authenticated user try to create question with empty body' do
-    sign_in(user)
-
-    visit questions_path
-
-    click_on 'Ask question'
-    fill_in 'Title', with: 'My question'
-    fill_in 'Body', with: nil
 
     click_on 'Post Your Question'
 

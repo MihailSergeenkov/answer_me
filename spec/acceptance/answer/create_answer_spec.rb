@@ -15,6 +15,7 @@ feature 'User create answer', %q{
     create_and_post_answer
 
     expect(current_path).to eq question_path(Question.last.id)
+    expect(page).to have_content 'Body of answer the question'
   end
 
   scenario 'User try to create answer the question with empty body' do
@@ -22,7 +23,6 @@ feature 'User create answer', %q{
 
     create_question(question)
 
-    click_on 'Create Your Answer'
     fill_in 'Body', with: nil
     click_on 'Post Your Answer'
 

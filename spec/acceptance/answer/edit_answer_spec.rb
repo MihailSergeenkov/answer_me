@@ -22,6 +22,8 @@ feature 'User edit answer', %q{
 
     expect(current_path).to eq question_path(Question.last.id)
     expect(page).to have_content 'Your answer is saved!'
+    expect(page).to_not have_content 'Body of answer the question'
+    expect(page).to have_content 'Edit question'
   end
 
   scenario 'Authenticated user try to edit not your answer' do

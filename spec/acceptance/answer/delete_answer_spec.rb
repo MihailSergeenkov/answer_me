@@ -19,6 +19,7 @@ feature 'User delete answer', %q{
 
     expect(current_path).to eq question_path(Question.last.id)
     expect(page).to have_content 'Your answer is deleted!'
+    expect(page).to_not have_content 'Body of answer the question'
   end
 
   scenario 'Authenticated user try to delete not your answer' do
