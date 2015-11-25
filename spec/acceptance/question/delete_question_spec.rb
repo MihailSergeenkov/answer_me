@@ -6,13 +6,13 @@ feature 'User delete question', %q{
 } do
 
   given(:user) { create(:user) }
-  given(:second_user) { create(:user) }
-  given(:question) { build(:question) }
+  given(:other_user) { create(:user) }
+  given(:question) { create(:question, user: user) }
 
   scenario 'Authenticated user and question\'s owner try to delete your question' do
     sign_in(user)
 
-    create_question(question)
+    visit question_path(question)
     click_on 'Delete question'
 
     expect(current_path).to eq questions_path
@@ -21,22 +21,14 @@ feature 'User delete question', %q{
   end
 
   scenario 'Authenticated user try to delete not your question' do
-    sign_in(user)
-
-    create_question(question)
-    click_on 'Logout'
-    sign_in(second_user)
-    visit question_path(Question.last.id)
+    sign_in(other_user)
+    visit question_path(question)
 
     expect(page).to_not have_button 'Delete question'
   end
 
   scenario 'Non-authenticated user try to delete question' do
-    sign_in(user)
-
-    create_question(question)
-    click_on 'Logout'
-    visit question_path(Question.last.id)
+    visit question_path(question)
 
     expect(page).to_not have_button 'Delete question'
   end

@@ -23,7 +23,7 @@ class AnswersController < ApplicationController
   end
 
   def update
-    if @answer.user_id == current_user.id
+    if current_user.author_of?(@answer)
       if @answer.update(answer_params)
         redirect_to @answer.question, notice: 'Your answer is saved!'
       else

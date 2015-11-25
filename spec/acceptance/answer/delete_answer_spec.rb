@@ -6,41 +6,33 @@ feature 'User delete answer', %q{
 } do
 
   given(:user) { create(:user) }
-  given(:second_user) { create(:user) }
-  given(:question) { build(:question) }
-  given(:answer) { build(:answer) }
+  given(:other_user) { create(:user) }
+  given(:question) { create(:question, user: user) }
+  given(:answer) { create(:answer, question: question, user: user) }
 
   scenario 'Authenticated user and answer\'s owner try to delete your answer' do
     sign_in(user)
 
     create_question(question)
-    create_and_post_answer
+    create_answer(answer)
     click_on 'Delete your answer'
 
     expect(current_path).to eq question_path(Question.last.id)
     expect(page).to have_content 'Your answer is deleted!'
-    expect(page).to_not have_content 'Body of answer the question'
+    expect(page).to_not have_content answer.body
   end
 
   scenario 'Authenticated user try to delete not your answer' do
-    sign_in(user)
-
-    create_question(question)
-    create_and_post_answer
-    click_on 'Logout'
-    sign_in(second_user)
-    visit question_path(Question.last.id)
+    sign_in(other_user)
+    answer
+    visit question_path(question)
 
     expect(page).to_not have_button 'Delete your answer'
   end
 
   scenario 'Non-authenticated user try to delete answer' do
-    sign_in(user)
-
-    create_question(question)
-    create_and_post_answer
-    click_on 'Logout'
-    visit question_path(Question.last.id)
+    answer
+    visit question_path(question)
 
     expect(page).to_not have_button 'Delete your answer'
   end

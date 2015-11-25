@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
-  let(:answer) { create(:answer, question: question) }
+  let(:answer) { create(:answer, question: question, user: user) }
   let(:user) { create(:user) }
 
   describe 'GET #new' do
@@ -42,6 +42,11 @@ RSpec.describe AnswersController, type: :controller do
       it 'redirects to the question show view' do
         post :create, question_id: question, answer: attributes_for(:answer)
         expect(response).to redirect_to question
+      end
+
+      it 'current user is set in answer' do
+        post :create, question_id: question, answer: attributes_for(:answer)
+        expect(answer.user_id).to eq user.id
       end
     end
 
@@ -87,7 +92,7 @@ RSpec.describe AnswersController, type: :controller do
 
         it 'does not change attributes' do
           answer.reload
-          expect(answer.body).to eq 'MyText'
+          expect(answer.body).to_not eq nil
         end
 
         it 're-render edit view' do
@@ -100,7 +105,7 @@ RSpec.describe AnswersController, type: :controller do
       it 'does not change question attributes' do
         patch :update, id: another_answer, question_id: question, answer: { body: 'MyText2' }
         another_answer.reload
-        expect(another_answer.body).to eq another_answer.body
+        expect(another_answer.body).to_not eq 'MyText2'
       end
     end
   end

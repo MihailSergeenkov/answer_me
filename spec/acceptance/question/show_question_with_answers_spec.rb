@@ -6,19 +6,18 @@ feature 'User looking question with answers list', %q{
 } do
 
   given(:user) { create(:user) }
-  given(:question) { build(:question) }
+  given(:question) { create(:question, user: user) }
+  given(:answers) { create_list(:answer, 2, question: question) }
 
   scenario 'User try see the question with list of answers' do
     sign_in(user)
 
     create_question(question)
-    create_and_post_answer
-    create_and_post_answer(2)
+    answers.each { |answer| create_answer(answer) }
 
     expect(page).to have_content question.title
     expect(page).to have_content question.body
     expect(page).to have_content 'Answers'
-    expect(page).to have_content 'Body of answer the question'
-    expect(page).to have_content 'Body of 2nd answer the question'
+    answers.each { |answer| expect(page).to have_content answer.body }
   end
 end

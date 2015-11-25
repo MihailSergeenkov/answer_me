@@ -3,7 +3,7 @@ h2
 p class='lead'
   = @question.body
 
-- if user_signed_in? && @question.user_id == current_user.id
+- if user_signed_in? && current_user.author_of?(@question)
   = button_to 'Edit question', edit_question_path(@question), method: :get, class: 'btn btn-primary'
   = button_to 'Delete question', @question, method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-primary'
 

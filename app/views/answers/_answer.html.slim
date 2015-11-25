@@ -1,6 +1,6 @@
 div class='panel panel-default'
   div class='panel-heading'
-    - if user_signed_in? && answer.user_id == current_user.id
+    - if user_signed_in? && current_user.author_of?(answer)
       td          
         = link_to 'Edit your answer', edit_answer_path(answer)
       td

@@ -6,21 +6,14 @@ feature 'User looking questions list', %q{
 } do
 
   given(:user) { create(:user) }
-  given(:question) { build(:question) }
-  given(:second_question) { build(:question) }
+  given(:questions) { create_list(:question, 2, user: user) }
 
   scenario "User try to see the list of questions" do
     sign_in(user)
 
-    create_question(question)
-
-    create_question(second_question)
-
+    questions.each { |question| create_question(question) }
     visit questions_path
 
-    expect(page).to have_content question.title
-    expect(page).to have_content question.body
-    expect(page).to have_content second_question.title
-    expect(page).to have_content second_question.body
+    questions.each { |question| expect(page).to have_content question.title }
   end
 end

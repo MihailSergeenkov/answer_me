@@ -1,11 +1,15 @@
 FactoryGirl.define do
   sequence :title do |n|
-    "MyQuestion #{n.ordinalize}"
+    "My Question #{n.ordinalize} Title"
+  end
+
+  sequence :question_body do |n|
+    "My Question #{n.ordinalize} Body"
   end
 
   factory :question do
     title
-    body "MyText"
+    body { generate(:question_body) }
     user
   end
 

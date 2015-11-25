@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let(:question) { create(:question) }
   let(:user) { create(:user) }
+  let(:question) { create(:question, user: user) }  
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2) }
@@ -68,6 +68,11 @@ RSpec.describe QuestionsController, type: :controller do
         post :create, question: attributes_for(:question)
         expect(response).to redirect_to question_path(assigns(:question))
       end
+
+      it 'current user is set in question' do
+        post :create, question: attributes_for(:question)
+        expect(question.user_id).to eq user.id
+      end
     end
 
     context 'with invalid attributes' do
@@ -112,8 +117,8 @@ RSpec.describe QuestionsController, type: :controller do
 
         it 'does not change question attributes' do
           question.reload
-          expect(question.title).to eq question.title
-          expect(question.body).to eq 'MyText'
+          expect(question.title).to_not eq 'new title'
+          expect(question.body).to_not eq nil
         end
 
         it 're-render edit view' do
@@ -126,8 +131,8 @@ RSpec.describe QuestionsController, type: :controller do
       it 'does not change question attributes' do
         patch :update, id: another_question, question: { title: 'new title', body: 'new body' }
         another_question.reload
-        expect(another_question.title).to eq another_question.title
-        expect(another_question.body).to eq another_question.body
+        expect(another_question.title).to_not eq 'new title'
+        expect(another_question.body).to_not eq 'new body'
       end
     end
   end

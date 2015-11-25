@@ -6,45 +6,38 @@ feature 'User edit answer', %q{
 } do
 
   given(:user) { create(:user) }
-  given(:second_user) { create(:user) }
-  given(:question) { build(:question) }
-  given(:answer) { build(:answer) }
+  given(:other_user) { create(:user) }
+  given(:question) { create(:question, user: user) }
+  given(:answer) { create(:answer, question: question, user: user) }
+  given(:new_answer) { build(:answer, question: question, user: user) }
 
   scenario 'Authenticated user and answer\'s owner try to edit your answer' do
     sign_in(user)
 
     create_question(question)
-    create_and_post_answer
+    create_answer(answer)
 
     click_on 'Edit your answer'
-    fill_in 'Body', with: 'Edit question'
+    fill_in 'Body', with: new_answer.body
     click_on 'Save changes'
 
     expect(current_path).to eq question_path(Question.last.id)
     expect(page).to have_content 'Your answer is saved!'
-    expect(page).to_not have_content 'Body of answer the question'
-    expect(page).to have_content 'Edit question'
+    expect(page).to_not have_content answer.body
+    expect(page).to have_content new_answer.body
   end
 
   scenario 'Authenticated user try to edit not your answer' do
-    sign_in(user)
-
-    create_question(question)
-    create_and_post_answer
-    click_on 'Logout'
-    sign_in(second_user)
-    visit question_path(Question.last.id)
+    sign_in(other_user)
+    answer
+    visit question_path(question)
 
     expect(page).to_not have_button 'Edit your answer'
   end
 
   scenario 'Non-authenticated user try to edit answer' do
-    sign_in(user)
-
-    create_question(question)
-    create_and_post_answer
-    click_on 'Logout'
-    visit question_path(Question.last.id)
+    answer
+    visit question_path(question)
 
     expect(page).to_not have_button 'Edit your answer'
   end
