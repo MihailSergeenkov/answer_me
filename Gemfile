@@ -28,6 +28,7 @@ gem 'slim-rails'
 gem 'twitter-bootstrap-rails'
 gem 'less-rails'
 gem 'therubyracer'
+gem 'devise'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -49,6 +50,8 @@ end
 group :test do
   # Use shoulda-matchers for tests
   gem 'shoulda-matchers'
+  gem 'capybara'
+  gem 'launchy'
 end
 
 group :development do

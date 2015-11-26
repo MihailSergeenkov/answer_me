@@ -1,0 +1,12 @@
+h2
+  = @question.title
+p class='lead'
+  = @question.body
+
+- if user_signed_in? && current_user.author_of?(@question)
+  = button_to 'Edit question', edit_question_path(@question), method: :get, class: 'btn btn-primary'
+  = button_to 'Delete question', @question, method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-primary'
+
+h3 Answers
+= render @question.answers
+= render 'answers/new_form', question: @question, answer: @answer if user_signed_in?

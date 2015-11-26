@@ -1,10 +1,7 @@
 class AnswersController < ApplicationController
-  before_action :current_question
+  before_action :authenticate_user!, except: [:index, :show]
+  before_action :current_question, only: [:new, :create]
   before_action :load_answer, only: [:edit, :update, :destroy]
-
-  def index
-    @answers = @question.answers.all
-  end
 
   def new
     @answer = @question.answers.new
@@ -15,24 +12,37 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.new(answer_params)
+    @answer.user = current_user
+
     if @answer.save
-      redirect_to @question
+      redirect_to @answer.question
     else
+      flash[:notice] = 'Please, enter the correct data!'
       render :new
     end
   end
 
   def update
-    if @answer.update(answer_params)
-      redirect_to @question
+    if current_user.author_of?(@answer)
+      if @answer.update(answer_params)
+        redirect_to @answer.question, notice: 'Your answer is saved!'
+      else
+        render :edit
+      end
     else
-      render :edit
+      redirect_to @answer.question, notice: 'You is not owner of this answer!'
     end
   end
 
   def destroy
-    @answer.destroy
-    redirect_to @question
+    if current_user.author_of?(@answer)
+      @answer.destroy
+      flash[:notice] = 'Your answer is deleted!'
+    else
+      flash[:notice] = 'You is not owner of this answer!'
+    end
+
+    redirect_to @answer.question
   end
 
   private
@@ -42,7 +52,7 @@ class AnswersController < ApplicationController
   end
 
   def load_answer
-    @answer = @question.answers.find(params[:id])
+    @answer = Answer.find(params[:id])
   end
 
   def answer_params
