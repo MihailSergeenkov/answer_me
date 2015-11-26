@@ -17,7 +17,7 @@ class AnswersController < ApplicationController
     if @answer.save
       redirect_to @answer.question
     else
-      flash.now[:notice] = 'Please, enter the correct data!'
+      flash[:notice] = 'Please, enter the correct data!'
       render :new
     end
   end
@@ -35,12 +35,14 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    if @answer.user_id == current_user.id
+    if current_user.author_of?(@answer)
       @answer.destroy
-      redirect_to @answer.question, notice: 'Your answer is deleted!'
+      flash[:notice] = 'Your answer is deleted!'
     else
-      redirect_to @answer.question, notice: 'You is not owner of this answer!'
+      flash[:notice] = 'You is not owner of this answer!'
     end
+
+    redirect_to @answer.question
   end
 
   private

@@ -1,10 +1,6 @@
 FactoryGirl.define do
-  sequence :answer_body do |n|
-    "My Answer #{n.ordinalize} Body"
-  end
-
   factory :answer do
-    body { generate(:answer_body) }
+    body 
     question
     user
   end

@@ -13,7 +13,7 @@ feature 'User edit question', %q{
   scenario 'Authenticated user and question\'s owner try to edit your question' do
     sign_in(user)
 
-    create_question(question)
+    visit question_path(question)
     click_on 'Edit question'
     fill_in 'Body', with: new_question.body
     click_on 'Save changes'

@@ -7,7 +7,7 @@ feature 'User create question', %q{
 } do
 
   given(:user) { create(:user) }
-  given(:question) { build(:question) }
+  given(:question) { create(:question) }
 
   scenario 'Authenticated user try to create question' do
     sign_in(user)

@@ -7,13 +7,11 @@ feature 'User looking question with answers list', %q{
 
   given(:user) { create(:user) }
   given(:question) { create(:question, user: user) }
-  given(:answers) { create_list(:answer, 2, question: question) }
+  given!(:answers) { create_list(:answer, 2, question: question) }
 
   scenario 'User try see the question with list of answers' do
     sign_in(user)
-
-    create_question(question)
-    answers.each { |answer| create_answer(answer) }
+    visit question_path(question)
 
     expect(page).to have_content question.title
     expect(page).to have_content question.body
