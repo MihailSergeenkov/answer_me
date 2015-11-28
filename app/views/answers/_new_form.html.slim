@@ -1,6 +1,6 @@
 
 h4 New answer
-= form_for [question, answer], html: { class: 'form-horizontal', role: 'form' } do |f|
+= form_for [question, answer], html: { class: 'form-horizontal', role: 'form' }, remote: true do |f|
   .form-group
     = f.label :body, class: 'col-sm-2 control-label'
     .col-sm-4

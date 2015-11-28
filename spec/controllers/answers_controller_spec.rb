@@ -36,28 +36,28 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with valid attributes' do
       it 'saves the new answer in the databse' do
-        expect { post :create, question_id: question, answer: attributes_for(:answer) }.to change(question.answers, :count).by(1)
+        expect { post :create, question_id: question, format: :js, answer: attributes_for(:answer) }.to change(question.answers, :count).by(1)
       end
 
-      it 'redirects to the question show view' do
-        post :create, question_id: question, answer: attributes_for(:answer)
-        expect(response).to redirect_to question
+      it 'render create template' do
+        post :create, question_id: question, format: :js, answer: attributes_for(:answer)
+        expect(response).to render_template :create
       end
 
       it 'current user is set in answer' do
-        post :create, question_id: question, answer: attributes_for(:answer)
+        post :create, question_id: question, format: :js, answer: attributes_for(:answer)
         expect(answer.user_id).to eq user.id
       end
     end
 
     context 'with invalid attributes' do
       it 'does not save the databse' do
-        expect { post :create, question_id: question, answer: attributes_for(:invalid_answer) }.to_not change(Answer, :count)
+        expect { post :create, question_id: question, format: :js, answer: attributes_for(:invalid_answer) }.to_not change(Answer, :count)
       end
 
-      it 're-render new view' do
-        post :create, question_id: question, answer: attributes_for(:invalid_answer)
-        expect(response).to render_template :new
+      it 're-render create template' do
+        post :create, question_id: question, format: :js, answer: attributes_for(:invalid_answer)
+        expect(response).to render_template :create
       end
     end
   end

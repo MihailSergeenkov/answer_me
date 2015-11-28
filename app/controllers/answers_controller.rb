@@ -14,12 +14,7 @@ class AnswersController < ApplicationController
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
 
-    if @answer.save
-      redirect_to @answer.question
-    else
-      flash[:notice] = 'Please, enter the correct data!'
-      render :new
-    end
+    flash[:notice] = 'Please, enter the correct data!' unless @answer.save
   end
 
   def update
