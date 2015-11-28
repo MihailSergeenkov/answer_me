@@ -9,5 +9,5 @@ p class='lead'
 br
 .answers
   h3 Answers
-  = render 'answers'
+  = render @question.answers
 = render 'answers/new_form', question: @question, answer: @answer if user_signed_in?
