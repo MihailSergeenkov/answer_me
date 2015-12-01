@@ -95,7 +95,7 @@ RSpec.describe AnswersController, type: :controller do
           expect(answer.body).to_not eq nil
         end
 
-        it 're-render edit view' do
+        it 'render update template' do
           expect(response).to render_template :update
         end
       end
@@ -118,18 +118,18 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'answer owner' do
       it 'delete answer' do
-        expect { delete :destroy, id: answer, question_id: question }.to change(Answer, :count).by(-1)
+        expect { delete :destroy, id: answer, question_id: question, format: :js }.to change(Answer, :count).by(-1)
       end
 
-      it 'redirect to question index view' do
-        delete :destroy, id: answer, question_id: question
-        expect(response).to redirect_to question
+      it 'render destroy template' do
+        delete :destroy, id: answer, question_id: question, format: :js
+        expect(response).to render_template :destroy
       end
     end
 
     context 'non-answer owner' do
       it 'delete answer' do
-        expect { delete :destroy, id: another_answer, question_id: question }.to_not change(Answer, :count)
+        expect { delete :destroy, id: another_answer, question_id: question, format: :js }.to_not change(Answer, :count)
       end
     end
   end

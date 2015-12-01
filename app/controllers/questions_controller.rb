@@ -31,11 +31,7 @@ class QuestionsController < ApplicationController
 
   def update
     if current_user.author_of?(@question)
-      if @question.update(question_params)
-        redirect_to @question, notice: 'Your question is saved!'
-      else
-        render :edit
-      end
+      @question.update(question_params)
     else
       redirect_to @question, notice: 'You is not owner of this question!'
     end

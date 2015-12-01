@@ -28,12 +28,12 @@ class AnswersController < ApplicationController
   def destroy
     if current_user.author_of?(@answer)
       @answer.destroy
-      flash[:notice] = 'Your answer is deleted!'
-    else
-      flash[:notice] = 'You is not owner of this answer!'
+    #  flash[:notice] = 'Your answer is deleted!'
+    #else
+    #  flash[:notice] = 'You is not owner of this answer!'
     end
 
-    redirect_to @answer.question
+    #redirect_to @answer.question
   end
 
   private

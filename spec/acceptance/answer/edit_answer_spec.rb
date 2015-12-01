@@ -13,7 +13,7 @@ feature 'Answer editing', %q{
   given(:new_answer) { build(:answer, question: question, user: user) }
 
   describe 'Authenticated user' do
-    context 'Author answer', js: true  do
+    context 'Author answer' do
       before do
         sign_in(user)
         visit question_path(question)

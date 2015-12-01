@@ -10,26 +10,48 @@ feature 'User delete answer', %q{
   given(:question) { create(:question, user: user) }
   given!(:answer) { create(:answer, question: question, user: user) }
 
-  scenario 'Authenticated user and answer\'s owner try to delete your answer' do
-    sign_in(user)
-    visit question_path(question)
-    click_on 'Delete your answer'
+  describe 'Authenticated user' do
+    context 'Author answer' do
+      before do
+        sign_in(user)
+        visit question_path(question)
+      end
 
-    expect(current_path).to eq question_path(Question.last.id)
-    expect(page).to have_content 'Your answer is deleted!'
-    expect(page).to_not have_content answer.body
-  end
+      scenario 'sees link to delete your answer' do
+        within "#answer-#{answer.id}" do
+          expect(page).to have_link 'Delete your answer'
+        end
+      end
 
-  scenario 'Authenticated user try to delete not your answer' do
-    sign_in(other_user)
-    visit question_path(question)
+      scenario 'try to delete your answer', js: true do
+        within "#answer-#{answer.id}" do
+          click_on 'Delete your answer'
+        end
 
-    expect(page).to_not have_button 'Delete your answer'
+        expect(current_path).to eq question_path(question)
+        expect(page).to_not have_content answer.body
+      end
+    end
+
+    context 'Non-author answer' do
+      before do
+        sign_in(other_user)
+        visit question_path(question)
+      end
+
+      scenario 'try to delete not your answer' do
+        within "#answer-#{answer.id}" do
+          expect(page).to_not have_link 'Delete your answer'
+        end
+      end
+    end
   end
 
   scenario 'Non-authenticated user try to delete answer' do
     visit question_path(question)
 
-    expect(page).to_not have_button 'Delete your answer'
+    within "#answer-#{answer.id}" do
+      expect(page).to_not have_link 'Delete your answer'
+    end
   end
 end
