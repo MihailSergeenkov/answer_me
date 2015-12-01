@@ -19,11 +19,7 @@ class AnswersController < ApplicationController
 
   def update
     if current_user.author_of?(@answer)
-      if @answer.update(answer_params)
-        redirect_to @answer.question, notice: 'Your answer is saved!'
-      else
-        render :edit
-      end
+      @answer.update(answer_params)
     else
       redirect_to @answer.question, notice: 'You is not owner of this answer!'
     end
