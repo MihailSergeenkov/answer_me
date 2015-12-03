@@ -12,7 +12,7 @@ feature 'Question editing', %q{
   given(:new_question) { build(:question) }
 
   describe 'Authenticated user' do
-    context 'Author answer' do
+    context 'Author question' do
       before do
         sign_in(user)
         visit question_path(question)
@@ -29,8 +29,6 @@ feature 'Question editing', %q{
         end
         click_on 'Save changes'
 
-        #expect(current_path).to eq question_path(Question.last.id)
-        #expect(page).to have_content 'Your question is saved!'
         expect(page).to_not have_content question.body
         expect(page).to have_content new_question.body
         within '.question' do
@@ -39,7 +37,7 @@ feature 'Question editing', %q{
       end
     end
 
-    context 'Non-author answer' do
+    context 'Non-author question' do
       before do
         sign_in(other_user)
         visit question_path(question)

@@ -1,12 +1,25 @@
 - if answer.persisted?
-  div class='panel panel-default' id="answer-#{answer.id}"
-    .panel-heading
+  ruby:
+    def best_answer(answer)
+      answer.best ? 
+      { tag: 'div', class: 'panel panel-default row best-answer', id: "answer-#{answer.id}" } :
+      { tag: 'div', class: 'panel panel-default row', id: "answer-#{answer.id}" }
+    end
+  *best_answer(answer)
+    .panel-heading.col-md-12
       - if user_signed_in? && current_user.author_of?(answer)
-        td          
-          = link_to 'Edit your answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
-        td
-          = link_to 'Delete your answer', answer_path(answer), method: :delete, remote: true
-    .panel-body
+        .text-left.col-md-6
+          td
+            - if answer.best
+              p &#9829;
+            - else
+              = link_to 'Make Best', best_answer_path(answer), method: :post, class: 'make-best-answer-link', remote: true
+        .text-right.col-md-6
+          td          
+            = link_to 'Edit your answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+          td
+            = link_to 'Delete your answer', answer_path(answer), method: :delete, remote: true
+    .panel-body.col-md-12
       p = answer.body
     = render 'answers/answer_errors'
     = form_for answer, html: { class: 'form-horizontal edit-answer', role: 'form', id: "edit-answer-#{answer.id}" }, remote: true do |f|

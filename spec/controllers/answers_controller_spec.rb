@@ -133,4 +133,31 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  describe 'POST #best' do
+    sign_in_user
+    let(:question) { create(:question, user: @user) }
+    before { post :best, id: answer, question_id: question, format: :js }
+
+    context 'question owner' do
+      it 'post best answer' do
+        answer.reload
+        expect(answer.best).to eq true
+      end
+
+      it 'render best answer template' do
+        expect(response).to render_template :best
+      end
+    end
+
+    context 'non-question owner' do
+      it 'post best answer' do
+        expect(answer.best).to_not eq true
+      end
+
+      it 'render best answer template' do
+        expect(response).to render_template :best
+      end
+    end
+  end
 end

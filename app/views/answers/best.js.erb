@@ -1,0 +1,12 @@
+<% if @answer.errors.present? %>
+  <% @answer.errors.full_messages.each do |message| %>
+    $("<%= "#answer-#{@answer.id} .answer-errors" %>").html('<%= j message %>').parent().show();
+  <% end %>
+<% else %>
+  $("<%= "#answer-#{@answer.id}" %>").addClass('best-answer');
+  $("<%= "#answer-#{@answer.id}" %> .make-best-answer-link").replaceWith('<p>&#9829;</p>');
+  $('.answers').replaceWith("<div class='answers'><h3>Answers</h3><div id='best'></div>"
+    + "<%= j render @answer.question.answers.order(:created_at) %>"
+    + "</div>");
+  $('.best-answer').appendTo('#best');
+<% end %>

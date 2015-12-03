@@ -2,5 +2,6 @@
 
 .answers
   h3 Answers
-  = render @question.answers
+  #best
+  = render @question.answers.order(:created_at)
 = render 'answers/new_form', question: @question, answer: @answer if user_signed_in?

@@ -5,4 +5,5 @@
 <% else %>
   $('.answers').append("<%= j render @answer %>");
   $('#new_answer #answer_body').val('');
+  <%= render 'answer_edit_form' %>
 <% end %>

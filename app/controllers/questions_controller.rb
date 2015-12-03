@@ -3,7 +3,7 @@ class QuestionsController < ApplicationController
   before_action :load_question, only: [:show, :edit, :update, :destroy]
 
   def index
-    @questions = Question.all
+    @questions = Question.order(:created_at)
   end
 
   def show
