@@ -17,12 +17,6 @@ feature 'User delete answer', %q{
         visit question_path(question)
       end
 
-      scenario 'sees link to delete your answer' do
-        within "#answer-#{answer.id}" do
-          expect(page).to have_link 'Delete your answer'
-        end
-      end
-
       scenario 'try to delete your answer', js: true do
         within "#answer-#{answer.id}" do
           click_on 'Delete your answer'

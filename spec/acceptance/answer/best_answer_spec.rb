@@ -20,12 +20,6 @@ feature 'Best answer', %q{
         visit question_path(question)
       end
 
-      scenario 'sees the link for assign the best answer' do
-        within "#answer-#{answer.id}" do
-          expect(page).to have_link 'Make Best'
-        end
-      end
-
       scenario 'try to assign the best answer', js: true do
         within "#answer-#{answer.id}" do
           click_on 'Make Best'

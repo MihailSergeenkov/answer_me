@@ -4,9 +4,4 @@
   <% end %>
 <% else %>
   $('.question').replaceWith("<%= j render 'form', question: @question %>");
-  $('.edit-question-link').click(function(e) {
-    e.preventDefault();
-    $(this).hide();
-    $('.edit-question').show();
-  });
 <% end %>

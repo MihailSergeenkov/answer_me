@@ -17,4 +17,22 @@ RSpec.describe Answer, type: :model do
   context 'Validates association with user' do
     it { should belong_to :user }
   end
+
+  context 'Validates method make_best' do
+    let(:answer) { create(:answer) }
+    let(:answers) { create_list(:answer, 3) }
+
+    it 'make best answer' do
+      answer.make_best
+      expect(answer.best).to eq true
+    end
+
+    it 'make best another answer' do
+      answers.first.make_best
+      answers.last.make_best
+      answers[0..-2].each do
+        expect(answer.best).to eq false
+      end
+    end
+  end
 end

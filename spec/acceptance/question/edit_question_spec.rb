@@ -18,10 +18,6 @@ feature 'Question editing', %q{
         visit question_path(question)
       end
 
-      scenario 'sees link to Edit your question' do
-        expect(page).to have_link 'Edit question'
-      end
-
       scenario 'try to edit his question', js: true do
         click_on 'Edit question'
         within '.edit-question' do
