@@ -45,15 +45,15 @@ group :development, :test do
   # Use rspec и factory girl for tests
   gem 'rspec-rails'
   gem 'factory_girl_rails'
+  gem 'capybara'
+  gem 'launchy'
+  gem 'capybara-webkit'
+  gem 'database_cleaner'
 end
 
 group :test do
   # Use shoulda-matchers for tests
   gem 'shoulda-matchers'
-  gem 'capybara'
-  gem 'launchy'
-  gem 'selenium-webdriver'
-  gem 'database_cleaner'
 end
 
 group :development do

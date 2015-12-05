@@ -1,10 +1,11 @@
-
-h4 New answer
-= form_for [question, answer], html: { class: 'form-horizontal', role: 'form' }, remote: true do |f|
-  .form-group
-    = f.label :body, class: 'col-sm-2 control-label'
-    .col-sm-4
-      = f.text_area :body, class: 'form-control', size: '150x12'
-  .form-group
-    div class='col-sm-offset-2 col-sm-10'
-      = f.submit 'Post Your Answer', class: 'btn btn-large btn-primary'  
+.new_answer
+  h4 New answer
+  = render 'answers/answer_errors'
+  = form_for [question, answer], html: { class: 'form-horizontal', role: 'form' }, remote: true do |f|
+    .form-group
+      = f.label :body, class: 'col-sm-2 control-label'
+      .col-sm-4
+        = f.text_area :body, class: 'form-control', size: '150x12'
+    .form-group
+      div class='col-sm-offset-2 col-sm-10'
+        = f.submit 'Post Your Answer', class: 'btn btn-large btn-primary'  

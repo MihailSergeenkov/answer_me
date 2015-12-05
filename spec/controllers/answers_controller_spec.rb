@@ -71,32 +71,32 @@ RSpec.describe AnswersController, type: :controller do
     context 'answer owner' do
       context 'with valid attributes' do
         it 'assigns the requested answer to @answer' do
-          patch :update, id: answer, question_id: question, answer: attributes_for(:answer)
+          patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
           expect(assigns(:answer)).to eq answer
         end
 
         it 'changes answer attributes' do
-          patch :update, id: answer, question_id: question, answer: { body: 'MyText2' }
+          patch :update, id: answer, question_id: question, answer: { body: 'MyText2' }, format: :js
           answer.reload
           expect(answer.body).to eq 'MyText2'
         end
 
-        it 'redirects to the question show view' do
-          patch :update, id: answer, question_id: question, answer: attributes_for(:answer)
-          expect(response).to redirect_to question
+        it 'render update template' do
+          patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
+          expect(response).to render_template :update
         end
       end
 
       context 'with invalid attributes' do
-        before { patch :update, id: answer, question_id: question, answer: attributes_for(:invalid_answer) }
+        before { patch :update, id: answer, question_id: question, answer: attributes_for(:invalid_answer), format: :js }
 
         it 'does not change attributes' do
           answer.reload
           expect(answer.body).to_not eq nil
         end
 
-        it 're-render edit view' do
-          expect(response).to render_template :edit
+        it 'render update template' do
+          expect(response).to render_template :update
         end
       end
     end
@@ -118,18 +118,45 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'answer owner' do
       it 'delete answer' do
-        expect { delete :destroy, id: answer, question_id: question }.to change(Answer, :count).by(-1)
+        expect { delete :destroy, id: answer, question_id: question, format: :js }.to change(Answer, :count).by(-1)
       end
 
-      it 'redirect to question index view' do
-        delete :destroy, id: answer, question_id: question
-        expect(response).to redirect_to question
+      it 'render destroy template' do
+        delete :destroy, id: answer, question_id: question, format: :js
+        expect(response).to render_template :destroy
       end
     end
 
     context 'non-answer owner' do
       it 'delete answer' do
-        expect { delete :destroy, id: another_answer, question_id: question }.to_not change(Answer, :count)
+        expect { delete :destroy, id: another_answer, question_id: question, format: :js }.to_not change(Answer, :count)
+      end
+    end
+  end
+
+  describe 'POST #best' do
+    sign_in_user
+    let(:question) { create(:question, user: @user) }
+    before { post :best, id: answer, question_id: question, format: :js }
+
+    context 'question owner' do
+      it 'post best answer' do
+        answer.reload
+        expect(answer.best).to eq true
+      end
+
+      it 'render best answer template' do
+        expect(response).to render_template :best
+      end
+    end
+
+    context 'non-question owner' do
+      it 'post best answer' do
+        expect(answer.best).to_not eq true
+      end
+
+      it 'render best answer template' do
+        expect(response).to render_template :best
       end
     end
   end

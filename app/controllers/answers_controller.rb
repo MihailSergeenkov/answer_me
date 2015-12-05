@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :current_question, only: [:new, :create]
-  before_action :load_answer, only: [:edit, :update, :destroy]
+  before_action :load_answer, only: [:edit, :update, :destroy, :best]
 
   def new
     @answer = @question.answers.new
@@ -19,11 +19,7 @@ class AnswersController < ApplicationController
 
   def update
     if current_user.author_of?(@answer)
-      if @answer.update(answer_params)
-        redirect_to @answer.question, notice: 'Your answer is saved!'
-      else
-        render :edit
-      end
+      @answer.update(answer_params)
     else
       redirect_to @answer.question, notice: 'You is not owner of this answer!'
     end
@@ -32,12 +28,14 @@ class AnswersController < ApplicationController
   def destroy
     if current_user.author_of?(@answer)
       @answer.destroy
-      flash[:notice] = 'Your answer is deleted!'
-    else
-      flash[:notice] = 'You is not owner of this answer!'
     end
+  end
 
-    redirect_to @answer.question
+  def best
+    if current_user.author_of?(@answer.question)
+      @answer.make_best
+      @question = @answer.question
+    end
   end
 
   private

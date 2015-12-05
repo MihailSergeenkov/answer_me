@@ -1,13 +1,7 @@
-h2
-  = @question.title
-p class='lead'
-  = @question.body
+= render 'form', question: @question
 
-- if user_signed_in? && current_user.author_of?(@question)
-  = link_to 'Edit question', edit_question_path(@question), class: 'btn btn-default', role: 'button'
-  = link_to 'Delete question', @question, method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-default', role: 'button'
-br
 .answers
   h3 Answers
-  = render @question.answers
+  #best
+  = render @question.answers.ordered
 = render 'answers/new_form', question: @question, answer: @answer if user_signed_in?

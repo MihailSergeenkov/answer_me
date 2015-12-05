@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../acceptance_helper'
 
 feature 'User create answer', %q{
   As an user
@@ -20,10 +20,12 @@ feature 'User create answer', %q{
     end
   end
 
-  scenario 'User try to create answer the question with empty body', js: true do
+  scenario 'User try to create invalid answer in question', js: true do
     sign_in(user)
     visit question_path(question)
 
-    expect(current_path).to eq question_path(question)
+    click_on 'Post Your Answer'
+
+    expect(page).to have_content 'Body can\'t be blank'
   end
 end

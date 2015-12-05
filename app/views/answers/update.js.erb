@@ -1,0 +1,8 @@
+<% if @answer.errors.present? %>
+  <% @answer.errors.full_messages.each do |message| %>
+    $("<%= "#answer-#{@answer.id} .answer-errors" %>").html('<%= j message %>').parent().show();
+  <% end %>
+<% else %>
+  $("<%= "#answer-#{@answer.id}" %>").replaceWith("<%= j render @answer %>");
+  <%= render 'answer_edit_form' %>
+<% end %>
