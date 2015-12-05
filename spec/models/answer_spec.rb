@@ -18,7 +18,7 @@ RSpec.describe Answer, type: :model do
     it { should belong_to :user }
   end
 
-  context 'Validates method make_best' do
+  describe '#make_best' do
     let(:answer) { create(:answer) }
     let(:answers) { create_list(:answer, 3) }
 
