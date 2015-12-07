@@ -4,6 +4,7 @@
     = question.title
   p class='lead'
     = question.body
+  = render 'show_attachments', post: question
 
   - if user_signed_in? && current_user.author_of?(question)
     = link_to 'Edit question', '', class: 'btn btn-default edit-question-link', role: 'button'

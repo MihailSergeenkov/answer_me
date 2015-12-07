@@ -1,0 +1,6 @@
+strong Attachments:
+.form-group 
+  = form.fields_for :attachments do |a|
+    = a.label :file, class: 'col-sm-2 control-label'
+    .col-sm-4
+      = a.file_field :file, class: 'form-control'

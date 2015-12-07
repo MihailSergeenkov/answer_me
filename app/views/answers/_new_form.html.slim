@@ -6,6 +6,7 @@
       = f.label :body, class: 'col-sm-2 control-label'
       .col-sm-4
         = f.text_area :body, class: 'form-control', size: '150x12'
+    = render 'add_attachments', form: f
     .form-group
       div class='col-sm-offset-2 col-sm-10'
         = f.submit 'Post Your Answer', class: 'btn btn-large btn-primary'  
