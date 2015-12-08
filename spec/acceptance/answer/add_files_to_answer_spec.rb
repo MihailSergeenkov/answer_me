@@ -2,7 +2,7 @@ require_relative '../acceptance_helper'
 
 feature 'Add files to answer', %q{
   In order to illustrate my answer
-  As an answer's author_of
+  As an answer's author
   I'd like to be able to attach files
 } do
 
@@ -24,6 +24,53 @@ feature 'Add files to answer', %q{
 
     within '.answers' do
       expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/1/rails_helper.rb'
+    end
+  end
+
+  scenario 'User adds files when answer to question', js: true do
+    within '.new_answer' do
+      fill_in 'Body', with: answer.body
+
+      within '.nested-fields' do
+        attach_file 'File', "#{Rails.root}/spec/rails_helper.rb"
+      end
+
+      click_on 'Add file'
+
+      within '.nested-fields+.nested-fields' do
+        attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
+      end
+
+      click_on 'Post Your Answer'
+    end
+
+    within '.answers' do
+      expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/1/rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/2/spec_helper.rb'
+    end
+  end
+
+  scenario 'User adds two files when answer to question, , but second files delete before save answer', js: true do
+    within '.new_answer' do
+      fill_in 'Body', with: answer.body
+
+      within '.nested-fields' do
+        attach_file 'File', "#{Rails.root}/spec/rails_helper.rb"
+      end
+
+      click_on 'Add file'
+
+      within '.nested-fields+.nested-fields' do
+        attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
+        click_on 'Remove file'
+      end
+
+      click_on 'Post Your Answer'
+    end
+
+    within '.answers' do
+      expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/1/rails_helper.rb'
+      expect(page).to_not have_link 'spec_helper.rb', href: '/uploads/attachment/file/2/spec_helper.rb'
     end
   end
 end

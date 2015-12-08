@@ -1,0 +1,7 @@
+$("<%= "#attachment-#{@attachment.id}" %>").parent().parent().remove();
+if ($("<%= "#answer-#{@attachment.attachable.id} ul.attachments" %>").find('.row')[0] == undefined ) {
+  $("<%= "#answer-#{@attachment.attachable.id} ul.attachments" %>").prev().remove();
+}
+if ($("div.question ul.attachments").find('.row')[0] == undefined ) {
+  $("div.question ul.attachments").prev().remove(); 
+}
