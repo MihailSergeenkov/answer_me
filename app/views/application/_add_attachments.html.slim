@@ -1,0 +1,6 @@
+strong Attachments:
+.form-group 
+  = form.fields_for :attachments do |a|
+    = render 'attachment_fields', f: a
+  .links.col-sm-6.control-label
+    = link_to_add_association 'Add file', form, :attachments

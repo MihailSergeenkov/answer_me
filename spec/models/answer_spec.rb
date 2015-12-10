@@ -35,4 +35,12 @@ RSpec.describe Answer, type: :model do
       end
     end
   end
+
+  context 'Validates association with attachment' do
+    it { should have_many :attachments }
+  end
+
+  context 'Accept nested attributes for attachments' do
+    it { should accept_nested_attributes_for :attachments }
+  end
 end

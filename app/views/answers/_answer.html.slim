@@ -16,6 +16,7 @@
             = link_to 'Delete your answer', answer_path(answer), method: :delete, remote: true
     .panel-body.col-md-12
       p = answer.body
+      = render 'show_attachments', post: answer
     = render 'answers/answer_errors'
     = form_for answer, html: { class: 'form-horizontal edit-answer', role: 'form', id: "edit-answer-#{answer.id}" }, remote: true do |f|
       .form-group
