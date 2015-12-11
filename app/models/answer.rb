@@ -1,12 +1,11 @@
 class Answer < ActiveRecord::Base
   belongs_to :question
   belongs_to :user
-  has_many :attachments, as: :attachable
   validates :body, :question_id, :user_id, presence: true
 
-  scope :ordered, -> { order(:created_at) }
+  include Attachable
 
-  accepts_nested_attributes_for :attachments
+  scope :ordered, -> { order(:created_at) }
 
   def make_best
     Answer.transaction do

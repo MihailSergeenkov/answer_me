@@ -26,16 +26,13 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    if current_user.author_of?(@answer)
-      @answer.destroy
-    end
+    @answer.destroy if current_user.author_of?(@answer)
   end
 
   def best
-    if current_user.author_of?(@answer.question)
-      @answer.make_best
-      @question = @answer.question
-    end
+    return unless current_user.author_of?(@answer.question)
+    @answer.make_best
+    @question = @answer.question
   end
 
   private
