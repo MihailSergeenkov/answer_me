@@ -37,7 +37,7 @@ RSpec.describe Answer, type: :model do
   end
 
   context 'Validates association with attachment' do
-    it { should have_many :attachments }
+    it { should have_many(:attachments).dependent :destroy }
   end
 
   context 'Accept nested attributes for attachments' do
