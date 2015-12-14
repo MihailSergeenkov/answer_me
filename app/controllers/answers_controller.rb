@@ -3,6 +3,8 @@ class AnswersController < ApplicationController
   before_action :current_question, only: [:new, :create]
   before_action :load_answer, only: [:edit, :update, :destroy, :best]
 
+  include Voted
+
   def new
     @answer = @question.answers.new
   end
@@ -26,16 +28,13 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    if current_user.author_of?(@answer)
-      @answer.destroy
-    end
+    @answer.destroy if current_user.author_of?(@answer)
   end
 
   def best
-    if current_user.author_of?(@answer.question)
-      @answer.make_best
-      @question = @answer.question
-    end
+    return unless current_user.author_of?(@answer.question)
+    @answer.make_best
+    @question = @answer.question
   end
 
   private

@@ -7,8 +7,10 @@ AllCops:
   Exclude:
     - 'vendor/**/*'
     - 'spec/**/*'
-    - 'db/*.rb'
+    - 'db/**/*'
     - 'bin/**/*'
+    - 'public/**/*'
+    - 'config/initializers/devise.rb'
   RunRailsCops: true
   DisplayCopNames: true
   StyleGuideCopsOnly: false

@@ -1,14 +1,17 @@
 .question
   = render 'question_errors'
-  h2
-    = question.title
-  p class='lead'
-    = question.body
-  = render 'show_attachments', post: question
+  .col-sm-1
+    = render 'votes/form_for_question', post: question
+  .col-sm-11
+    h2
+      = question.title
+    p class='lead'
+      = question.body
+    = render 'show_attachments', post: question
 
-  - if user_signed_in? && current_user.author_of?(question)
-    = link_to 'Edit question', '', class: 'btn btn-default edit-question-link', role: 'button'
-    = link_to 'Delete question', question, method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-default', role: 'button'
+    - if user_signed_in? && current_user.author_of?(question)
+      = link_to 'Edit question', '', class: 'btn btn-default edit-question-link', role: 'button'
+      = link_to 'Delete question', question, method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-default', role: 'button'
 
   = form_for question, html: { class: 'form-horizontal edit-question', role: 'form' }, remote: true do |f|
     .form-group

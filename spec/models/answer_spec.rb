@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Answer, type: :model do
+  let(:question) { create(:question, user: user) }
+  let(:post) { create(:answer, user: user) }
+
+  it_behaves_like 'Votable'
+  it_behaves_like 'Attachable'
+
   context 'Validates body answer' do
     it { should validate_presence_of :body }
   end
@@ -34,13 +40,5 @@ RSpec.describe Answer, type: :model do
         expect(answer.best).to eq false
       end
     end
-  end
-
-  context 'Validates association with attachment' do
-    it { should have_many :attachments }
-  end
-
-  context 'Accept nested attributes for attachments' do
-    it { should accept_nested_attributes_for :attachments }
   end
 end

@@ -1,0 +1,22 @@
+.vote.text-center
+  strong Voting
+  - if user_signed_in?
+    - if current_user.author_of?(post)
+      div
+        span.badge.rating = post.votes.rating
+    - else
+      - if current_user.voted?(post)
+        = link_to 'Delete', vote_reset_answer_path(post), class: 'btn btn-xs btn-primary vote-reset', method: :delete, remote: true
+        = link_to 'Up', vote_up_answer_path(post), disabled: 'disabled', class: 'btn btn-xs btn-success vote-up-off', method: :patch, remote: true
+        div
+          span.badge.rating = post.votes.rating
+        = link_to 'Down', vote_down_answer_path(post), disabled: 'disabled', class: 'btn btn-xs btn-danger vote-down-off', method: :patch, remote: true
+      - else
+        = link_to 'Delete', vote_reset_answer_path(post), disabled: 'disabled', class: 'btn btn-xs btn-primary vote-reset', method: :delete, remote: true
+        = link_to 'Up', vote_up_answer_path(post), class: 'btn btn-xs btn-success vote-up-on', method: :patch, remote: true 
+        div
+          span.badge.rating = post.votes.rating
+        = link_to 'Down', vote_down_answer_path(post), class: 'btn btn-xs btn-danger vote-down-on', method: :patch, remote: true
+  - else
+    div
+      span.badge.rating = post.votes.rating

@@ -14,7 +14,9 @@
             = link_to 'Edit your answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
           td
             = link_to 'Delete your answer', answer_path(answer), method: :delete, remote: true
-    .panel-body.col-md-12
+    .panel-body.col-sm-1
+      = render 'votes/form_for_answer', post: answer
+    .panel-body.col-md-11
       p = answer.body
       = render 'show_attachments', post: answer
     = render 'answers/answer_errors'
