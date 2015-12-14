@@ -1,4 +1,7 @@
 shared_examples_for 'Votable' do
+  let(:other_user) { create(:user) }
+  let(:user) { create(:user) }
+
   context 'Validates association with votes' do
     it { should have_many(:votes).dependent :destroy }
   end

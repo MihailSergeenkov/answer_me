@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Answer, type: :model do
+  let(:question) { create(:question, user: user) }
+  let(:post) { create(:answer, user: user) }
+
+  it_behaves_like 'Votable'
+  it_behaves_like 'Attachable'
+
   context 'Validates body answer' do
     it { should validate_presence_of :body }
   end
