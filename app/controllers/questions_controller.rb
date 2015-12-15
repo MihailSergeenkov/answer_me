@@ -27,6 +27,7 @@ class QuestionsController < ApplicationController
 
     if @question.save
       redirect_to @question, notice: 'Thanks! Your question is saved!'
+      PrivatePub.publish_to "/questions", question: [@question.id, @question.title, @question.body.truncate(20)]
     else
       flash[:notice] = 'Please, enter the correct data!'
       render :new
