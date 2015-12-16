@@ -7,6 +7,10 @@ ready = ->
     e.preventDefault()
     $(this).hide()
     $('.edit-question').show()
+  $('.question .new-comment-link').click (e) ->
+    e.preventDefault()
+    $(this).hide()
+    $('.question .form-comment').show()
   $('.question .vote-up-on, .question .vote-down-on, .question .vote-reset').bind 'ajax:success', (e, data, status, xhr) ->
     response = $.parseJSON(xhr.responseText)
     if response.voted

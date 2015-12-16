@@ -1,0 +1,21 @@
+.comments
+  table.table.table-striped
+    tbody
+      - unless post.comments.blank?
+        - post.comments.each do |comment|
+          - if comment.persisted?
+            = render 'comments/comment', comment: comment
+.new-comment
+  = render 'comments/comment_errors'
+  .form-comment
+    = form_for [post, post.comments.new], html: { class: 'form-horizontal', role: 'form' }, remote: true do |f|
+      .form-group
+        = f.label :body, class: 'col-sm-2 control-label'
+        .col-sm-4
+          = f.text_area :body, class: 'form-control'
+      .form-group
+        div.col-sm-offset-2.col-sm-10
+          = f.submit 'Post', class: 'btn btn-large btn-primary'
+  - if user_signed_in?
+    = link_to 'Add a comment', '', class: 'btn btn-default new-comment-link', role: 'button', data: { post_id: post.id }
+    

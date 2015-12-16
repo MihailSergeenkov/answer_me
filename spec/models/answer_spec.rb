@@ -6,6 +6,7 @@ RSpec.describe Answer, type: :model do
 
   it_behaves_like 'Votable'
   it_behaves_like 'Attachable'
+  it_behaves_like 'Commentable'
 
   context 'Validates body answer' do
     it { should validate_presence_of :body }

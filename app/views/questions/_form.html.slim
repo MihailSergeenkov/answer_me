@@ -1,4 +1,4 @@
-.question
+.question id="question-#{question.id}"
   = render 'question_errors'
   .col-sm-1
     = render 'votes/form_for_question', post: question
@@ -12,6 +12,7 @@
     - if user_signed_in? && current_user.author_of?(question)
       = link_to 'Edit question', '', class: 'btn btn-default edit-question-link', role: 'button'
       = link_to 'Delete question', question, method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-default', role: 'button'
+    = render 'comments/form', post: question
 
   = form_for question, html: { class: 'form-horizontal edit-question', role: 'form' }, remote: true do |f|
     .form-group
