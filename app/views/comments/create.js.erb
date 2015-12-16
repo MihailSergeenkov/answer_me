@@ -3,9 +3,11 @@
     $('<%= @css_id_commentable %> .new-comment .comment-errors').html('<%= j message %>').parent().show();
   <% end %>
 <% else %>
+  <% publish_to "/posts/#{@comment.commentable.id}/comments" do %>
     $('<%= @css_id_commentable %> .comments .table tbody').append("<%= j render @comment %>");
     <%= render 'comment_edit_form' %>
-    $('<%= @css_id_commentable %> .new-comment #comment_body').val('');
-    $('<%= @css_id_commentable %> .new-comment-link').show();
-    $('<%= @css_id_commentable %> .form-comment').hide();
+  <% end %>
+  $('<%= @css_id_commentable %> .new-comment #comment_body').val('');
+  $('<%= @css_id_commentable %> .new-comment-link').show();
+  $('<%= @css_id_commentable %> .form-comment').hide();
 <% end %>
