@@ -27,7 +27,7 @@ class QuestionsController < ApplicationController
 
     if @question.save
       redirect_to @question, notice: 'Thanks! Your question is saved!'
-      PrivatePub.publish_to "/questions", question: [@question.id, @question.title, @question.body.truncate(20)]
+      PrivatePub.publish_to "/questions", question: { id: @question.id, title: @question.title, body: @question.body.truncate(20) }.to_json
     else
       flash[:notice] = 'Please, enter the correct data!'
       render :new

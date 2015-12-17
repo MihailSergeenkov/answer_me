@@ -5,7 +5,7 @@
       - unless post.comments.blank?
         - post.comments.each do |comment|
           - if comment.persisted?
-            = render 'comments/comment', comment: comment
+            = render comment
 .new-comment
   = render 'comments/comment_errors'
   .form-comment

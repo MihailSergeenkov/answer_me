@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require jquery.remotipart
 //= require private_pub
+//= require skim
 //= require cocoon
 //= require twitter/bootstrap
 //= require turbolinks

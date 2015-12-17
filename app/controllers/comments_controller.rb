@@ -6,7 +6,6 @@ class CommentsController < ApplicationController
     @comment = @commentable.comments.new(comment_params)
     @comment.user = current_user
     @comment.save
-    @css_id_commentable = "##{@comment.commentable_type.underscore}-#{@comment.commentable.id}"
   end
 
   def destroy

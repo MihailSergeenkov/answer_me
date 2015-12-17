@@ -23,15 +23,8 @@ ready = ->
       $('.question .vote-down-off').removeAttr('disabled').removeClass('vote-down-off').addClass('vote-down-on')
     $('.question .rating').text(response.rating)
   PrivatePub.subscribe '/questions',(data, channel) ->
-    questionData = data['question']
-    $('.questions').append("<div class='col-md-6'>" +
-                             "<div class='panel panel-default'>" +
-                               "<p class='panel-heading'>" +
-                                 "<a href=/questions/" + questionData[0] + ">" + questionData[1] + "</a>" +
-                               "</p>" +
-                               "<p class='panel-body'>" + questionData[2] + "</p>" +
-                             "</div>" +
-                           "</div>")
+    questionData = $.parseJSON(data['question'])
+    $('.questions').append(JST["templates/question"]({question_data: questionData}))
 
 $(document).ready(ready)
 $(document).on('page:load', ready)

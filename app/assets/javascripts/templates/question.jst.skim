@@ -1,0 +1,5 @@
+.col-md-6
+  .panel.panel-default
+    p.panel-heading
+      a href="/questions/#{@question_data.id}" #{@question_data.title}
+    p.panel-body #{@question_data.body} 
