@@ -20,7 +20,7 @@
       p = answer.body
       = render 'show_attachments', post: answer
     = render 'answers/answer_errors'
-    = form_for answer, html: { class: 'form-horizontal edit-answer', role: 'form', id: "edit-answer-#{answer.id}" }, remote: true do |f|
+    = form_for answer, url: answer_path(answer), html: { class: 'form-horizontal edit-answer', role: 'form', id: "edit-answer-#{answer.id}" }, remote: true do |f|
       .form-group
         = f.label :body, class: 'col-sm-2 control-label'
         .col-sm-4
@@ -28,3 +28,5 @@
       .form-group
         div class=['col-sm-offset-2','col-sm-10']
           = f.submit 'Save changes', class: "btn btn-large btn-primary"
+    .panel-body.col-md-12
+      = render 'comments/comments', post: answer

@@ -5,6 +5,7 @@ RSpec.describe Question, type: :model do
 
   it_behaves_like 'Votable'
   it_behaves_like 'Attachable'
+  it_behaves_like 'Commentable'
 
   context 'Validates title question' do
     it { should validate_presence_of :title }

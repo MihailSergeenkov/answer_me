@@ -8,6 +8,11 @@ ready = ->
     $(this).hide()
     answer_id = $(this).data('answerId')
     $('form#edit-answer-' + answer_id).show()
+  $('.answers .new-comment-link').click (e) ->
+    e.preventDefault()
+    $(this).hide()
+    answer_id = $(this).data('postId')
+    $('#answer-' + answer_id + ' .form-comment').show()
   $('.best-answer').appendTo('#best')
   $('.answers .vote-up-on, .answers .vote-down-on, .answers .vote-reset').bind 'ajax:success', (e, data, status, xhr) ->
     response = $.parseJSON(xhr.responseText)

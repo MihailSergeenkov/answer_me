@@ -1,0 +1,5 @@
+$('<%= css_id_commentable %> .new-comment-link').click(function(e) {
+  e.preventDefault();
+  $(this).hide();
+  $('<%= css_id_commentable %> .form-comment').show();
+});

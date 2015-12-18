@@ -6,3 +6,6 @@
   #best
   = render @question.answers.ordered
 = render 'answers/new_form', question: @question, answer: @answer if user_signed_in?
+
+= subscribe_to "/questions/#{@question.id}/answers"
+= subscribe_to "/questions/#{@question.id}/comments"

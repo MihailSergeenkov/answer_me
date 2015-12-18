@@ -7,6 +7,10 @@ ready = ->
     e.preventDefault()
     $(this).hide()
     $('.edit-question').show()
+  $('.question .new-comment-link').click (e) ->
+    e.preventDefault()
+    $(this).hide()
+    $('.question .form-comment').show()
   $('.question .vote-up-on, .question .vote-down-on, .question .vote-reset').bind 'ajax:success', (e, data, status, xhr) ->
     response = $.parseJSON(xhr.responseText)
     if response.voted
@@ -18,6 +22,9 @@ ready = ->
       $('.question .vote-up-off').removeAttr('disabled').removeClass('vote-up-off').addClass('vote-up-on')
       $('.question .vote-down-off').removeAttr('disabled').removeClass('vote-down-off').addClass('vote-down-on')
     $('.question .rating').text(response.rating)
+  PrivatePub.subscribe '/questions',(data, channel) ->
+    questionData = $.parseJSON(data['question'])
+    $('.questions').append(JST["templates/question"]({question_data: questionData}))
 
 $(document).ready(ready)
 $(document).on('page:load', ready)

@@ -15,8 +15,7 @@ class AnswersController < ApplicationController
   def create
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
-
-    flash[:notice] = 'Please, enter the correct data!' unless @answer.save
+    @answer.save
   end
 
   def update
