@@ -6,7 +6,7 @@
   $("<%= "#answer-#{@answer.id}" %>").addClass('best-answer');
   $("<%= "#answer-#{@answer.id}" %> .make-best-answer-link").replaceWith('<p>&#9829;</p>');
   $('.answers').replaceWith("<div class='answers'><h3>Answers</h3><div id='best'></div>"
-    + "<%= j render @question.answers.ordered %>"
+    + "<%= j render all_answers_in_question.ordered %>"
     + "</div>");
   $('.best-answer').appendTo('#best');
 <% end %>

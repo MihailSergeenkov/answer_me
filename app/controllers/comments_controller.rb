@@ -1,16 +1,16 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_commentable, only: :create
+  before_action :set_comment, only: :destroy
+
+  respond_to :js
 
   def create
-    @comment = @commentable.comments.new(comment_params)
-    @comment.user = current_user
-    @comment.save
+    respond_with(@comment = @commentable.comments.create(comment_params.merge!(user_id: current_user.id)))
   end
 
   def destroy
-    @comment = Comment.find(params[:id])
-    @comment.destroy if current_user.author_of?(@comment)
+    respond_with(@comment.destroy) if current_user.author_of?(@comment)
   end
 
   private
@@ -29,5 +29,9 @@ class CommentsController < ApplicationController
 
   def comment_params
     params.require(:comment).permit(:body)
+  end
+
+  def set_comment
+    @comment = Comment.find(params[:id])
   end
 end

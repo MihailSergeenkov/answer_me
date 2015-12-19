@@ -17,6 +17,7 @@ feature 'Add files to answer', %q{
 
   scenario 'User adds file when answer to question', js: true do
     within '.new_answer' do
+      click_on 'Add file'
       fill_in 'Body', with: answer.body
       attach_file 'File', "#{Rails.root}/spec/rails_helper.rb"
       click_on 'Post Your Answer'
@@ -29,6 +30,7 @@ feature 'Add files to answer', %q{
 
   scenario 'User adds files when answer to question', js: true do
     within '.new_answer' do
+      click_on 'Add file'
       fill_in 'Body', with: answer.body
 
       within '.nested-fields' do
@@ -52,6 +54,7 @@ feature 'Add files to answer', %q{
 
   scenario 'User adds two files when answer to question, , but second files delete before save answer', js: true do
     within '.new_answer' do
+      click_on 'Add file'
       fill_in 'Body', with: answer.body
 
       within '.nested-fields' do

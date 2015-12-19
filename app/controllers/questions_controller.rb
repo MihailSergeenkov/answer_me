@@ -1,56 +1,41 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :load_question, only: [:show, :edit, :update, :destroy]
+  before_action :new_answer, only: :show
+  after_action :publish_question, only: :create
 
   include Voted
 
+  respond_to :html, :js
+
   def index
-    @questions = Question.order(:created_at)
+    respond_with(@questions = Question.order(:created_at))
   end
 
   def show
-    @answer = @question.answers.new
-    @answer.attachments.new
+    respond_with @question
   end
 
   def new
-    @question = Question.new
-    @question.attachments.new
+    respond_with(@question = Question.new)
   end
 
   def edit
   end
 
   def create
-    @question = Question.new(question_params)
-    @question.user = current_user
-
-    if @question.save
-      redirect_to @question, notice: 'Thanks! Your question is saved!'
-      PrivatePub.publish_to "/questions", question: { id: @question.id, title: @question.title, body: @question.body.truncate(20) }.to_json
-    else
-      flash[:notice] = 'Please, enter the correct data!'
-      render :new
-    end
+    respond_with(@question = current_user.questions.create(question_params))
   end
 
   def update
-    if current_user.author_of?(@question)
-      @question.update(question_params)
-    else
-      redirect_to @question, notice: 'You is not owner of this question!'
-    end
+    return redirect_to(@question, notice: 'You is not owner of this question!') unless current_user.author_of?(@question)
+    @question.update(question_params)
+    respond_with @question
   end
 
   def destroy
-    if current_user.author_of?(@question)
-      @question.destroy
-      flash[:notice] = 'Your question is deleted!'
-    else
-      flash[:notice] = 'You is not owner of this question!'
-    end
-
-    redirect_to questions_path
+    return redirect_to(questions_path) unless current_user.author_of?(@question)
+    respond_with(@question.destroy)
   end
 
   private
@@ -61,5 +46,13 @@ class QuestionsController < ApplicationController
 
   def question_params
     params.require(:question).permit(:title, :body, attachments_attributes: [:id, :file, :_destroy])
+  end
+
+  def new_answer
+    @answer = @question.answers.new
+  end
+
+  def publish_question
+    PrivatePub.publish_to "/questions", question: { id: @question.id, title: @question.title, body: @question.body.truncate(20) }.to_json if @question.valid?
   end
 end
