@@ -5,35 +5,32 @@ class AnswersController < ApplicationController
 
   include Voted
 
+  respond_to :html, :js
+
   def new
-    @answer = @question.answers.new
+    respond_with(@answer = @question.answers.new)
   end
 
   def edit
   end
 
   def create
-    @answer = @question.answers.new(answer_params)
-    @answer.user = current_user
-    @answer.save
+    respond_with(@answer = @question.answers.create(answer_params.merge!(user_id: current_user.id)))
   end
 
   def update
-    if current_user.author_of?(@answer)
-      @answer.update(answer_params)
-    else
-      redirect_to @answer.question, notice: 'You is not owner of this answer!'
-    end
+    return redirect_to(@answer.question, notice: 'You is not owner of this answer!') unless current_user.author_of?(@answer)
+    @answer.update(answer_params)
+    respond_with @answer
   end
 
   def destroy
-    @answer.destroy if current_user.author_of?(@answer)
+    respond_with(@answer.destroy) if current_user.author_of?(@answer)
   end
 
   def best
     return unless current_user.author_of?(@answer.question)
-    @answer.make_best
-    @question = @answer.question
+    respond_with(@answer.make_best)
   end
 
   private

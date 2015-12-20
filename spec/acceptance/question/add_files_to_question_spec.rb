@@ -17,6 +17,7 @@ feature 'Add files to question', %q{
   end
 
   scenario 'User adds file when asks question', js: true do
+    click_on 'Add file'
     attach_file 'File', "#{Rails.root}/spec/rails_helper.rb"
     click_on 'Post Your Question'
 
@@ -24,6 +25,8 @@ feature 'Add files to question', %q{
   end
 
   scenario 'User adds files when asks question', js: true do
+    click_on 'Add file'
+
     within '.nested-fields' do
       attach_file 'File', "#{Rails.root}/spec/rails_helper.rb"
     end
@@ -41,6 +44,8 @@ feature 'Add files to question', %q{
   end
 
   scenario 'User adds two files when asks question, but second files delete before save question', js: true do
+    click_on 'Add file'
+
     within '.nested-fields' do
       attach_file 'File', "#{Rails.root}/spec/rails_helper.rb"
     end
