@@ -30,6 +30,7 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include Devise::TestHelpers, type: :controller
   config.extend ControllerMacros, type: :controller
+  config.include OmniauthMacros
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
@@ -54,6 +55,8 @@ RSpec.configure do |config|
   # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
 end
+
+OmniAuth.config.test_mode = true
 
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
