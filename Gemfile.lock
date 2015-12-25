@@ -49,6 +49,9 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    capybara-email (2.4.0)
+      capybara (~> 2.4)
+      mail
     capybara-webkit (1.7.1)
       capybara (>= 2.3.0, < 2.6.0)
       json
@@ -131,6 +134,8 @@ GEM
       less (~> 2.6.0)
       sprockets (> 2, < 4)
       tilt
+    letter_opener (1.4.1)
+      launchy (~> 2.2)
     libv8 (3.16.14.13)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
@@ -307,6 +312,7 @@ PLATFORMS
 DEPENDENCIES
   byebug
   capybara
+  capybara-email
   capybara-webkit
   carrierwave
   cocoon
@@ -318,6 +324,7 @@ DEPENDENCIES
   jquery-rails
   launchy
   less-rails
+  letter_opener
   omniauth
   omniauth-facebook
   omniauth-twitter
