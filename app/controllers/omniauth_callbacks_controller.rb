@@ -20,11 +20,12 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       set_flash_message(:notice, :success, kind: provider.to_s.humanize) if is_navigational_format?
     else
       flash[:notice] = 'Please, specify your email for sign up'
-      render 'users/require_user_email', locals: { auth: auth }
+      session['devise.auth'] = { provider: request.env['omniauth.auth'].provider, uid: request.env['omniauth.auth'].uid }
+      render 'users/require_user_email'
     end
   end
 
   def auth
-    request.env['omniauth.auth'] || OmniAuth::AuthHash.new(params[:auth])
+    request.env['omniauth.auth'] || OmniAuth::AuthHash.new(params[:auth].merge!(session['devise.auth']))
   end
 end

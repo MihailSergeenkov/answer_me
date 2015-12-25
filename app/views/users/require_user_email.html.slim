@@ -1,12 +1,9 @@
-= form_tag twitter_path, method: :post, class: 'form-horizontal' do
+= form_tag twitter_path, class: 'form-horizontal' do
   .form-group
     .col-sm-2.text-right
       = label_tag :email
     .col-sm-4
       = email_field 'auth[info]', :email
-  .form-group
-    = hidden_field_tag 'auth[provider]', auth.provider
-    = hidden_field_tag 'auth[uid]', auth.uid
   .form-group
     .col-sm-offset-2.col-sm-10
       = submit_tag 'Submit', class: 'btn btn-large btn-primary'
