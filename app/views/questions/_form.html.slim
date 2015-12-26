@@ -9,8 +9,9 @@
       = question.body
     = render 'show_attachments', post: question
 
-    - if user_signed_in? && current_user.author_of?(question)
+    - if can?(:update, question)
       = link_to 'Edit question', '', class: 'btn btn-default edit-question-link', role: 'button'
+    - if can?(:destroy, question)
       = link_to 'Delete question', question, method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-default', role: 'button'
     = render 'comments/comments', post: question
 

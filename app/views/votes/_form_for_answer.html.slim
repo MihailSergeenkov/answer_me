@@ -1,7 +1,7 @@
 .vote.text-center
   strong Voting
   - if user_signed_in?
-    - if current_user.author_of?(post)
+    - if cannot?(:vote, post)
       div
         span.badge.rating = post.votes.rating
     - else
