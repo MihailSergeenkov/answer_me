@@ -14,7 +14,7 @@ html
         - if user_signed_in? 
           = button_to 'Logout', destroy_user_session_path, class: 'btn btn-default navbar-btn navbar-right', method: :delete 
         - else 
-          = button_to 'Login', new_user_session_path, class: 'btn btn-default navbar-btn navbar-right' 
+          = button_to 'Login', new_user_session_path, class: 'btn btn-default navbar-btn navbar-right', method: :get 
     .row
       - if notice
         div class='alert alert-warning alert-dismissable'

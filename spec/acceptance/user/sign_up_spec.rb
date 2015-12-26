@@ -8,18 +8,20 @@ feature 'User sign up', %q{
 
   given(:user) { build(:user) }
 
-  scenario 'User try to sign up' do
+  before do
     sign_up(user)
+    open_email(user.email)
+    current_email.click_link 'Confirm my account'
+  end
 
-    expect(page).to have_content 'Welcome! You have signed up successfully.'
+  scenario 'User try to sign up' do
+    sign_in(user)
+    expect(page).to have_content 'Signed in successfully.'
     expect(current_path).to eq root_path
   end
 
   scenario 'Registered user try to sign up retry' do
     sign_up(user)
-    click_on 'Logout'
-    sign_up(user)
-
     expect(page).to have_content 'Email has already been taken'
   end
 end

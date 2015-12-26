@@ -36,6 +36,10 @@ gem 'private_pub'
 gem 'thin'
 gem 'skim'
 gem 'responders', '~> 2.0'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-vkontakte'
+gem 'omniauth-twitter'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -49,6 +53,7 @@ gem 'responders', '~> 2.0'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem 'pry-byebug'
   # Use rspec и factory girl for tests
   gem 'rspec-rails'
   gem 'factory_girl_rails'
@@ -56,6 +61,7 @@ group :development, :test do
   gem 'launchy'
   gem 'capybara-webkit'
   gem 'database_cleaner'
+  gem 'capybara-email'
 end
 
 group :test do
@@ -69,4 +75,5 @@ group :development do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+  gem 'letter_opener'
 end
