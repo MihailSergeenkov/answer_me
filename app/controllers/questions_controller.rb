@@ -8,6 +8,8 @@ class QuestionsController < ApplicationController
 
   respond_to :html, :js
 
+  authorize_resource
+
   def index
     respond_with(@questions = Question.order(:created_at))
   end
@@ -28,13 +30,11 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    return redirect_to(@question, notice: 'You is not owner of this question!') unless current_user.author_of?(@question)
     @question.update(question_params)
     respond_with @question
   end
 
   def destroy
-    return redirect_to(questions_path) unless current_user.author_of?(@question)
     respond_with(@question.destroy)
   end
 

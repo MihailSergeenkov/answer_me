@@ -23,6 +23,7 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'GET #edit' do
     sign_in_user
+    let(:answer) { create(:answer, user: @user) }
     before { get :edit, id: answer, question_id: question }
 
     it 'assigns the requested answer to @answer' do

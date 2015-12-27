@@ -6,5 +6,5 @@
         .col-sm-2
           li id="attachment-#{a.id}" = link_to a.file.identifier, a.file.url
         .col-sm-2
-          - if user_signed_in? && current_user.author_of?(a.attachable)
+          - if can?(:destroy, a.attachable)
             = link_to 'Delete file', attachment_path(a), method: :delete, remote: true

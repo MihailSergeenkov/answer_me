@@ -17,6 +17,6 @@
       .form-group
         div.col-sm-offset-2.col-sm-10
           = f.submit 'Post', class: 'btn btn-large btn-primary'
-  - if user_signed_in?
+  - if can?(:create, Comment)
     = link_to 'Add a comment', '', class: 'btn btn-default new-comment-link', role: 'button', data: { post_id: post.id }
 = subscribe_to "/posts/#{post.id}/comments"    

@@ -7,6 +7,8 @@ class AnswersController < ApplicationController
 
   respond_to :html, :js
 
+  authorize_resource
+
   def new
     respond_with(@answer = @question.answers.new)
   end
@@ -19,17 +21,15 @@ class AnswersController < ApplicationController
   end
 
   def update
-    return redirect_to(@answer.question, notice: 'You is not owner of this answer!') unless current_user.author_of?(@answer)
     @answer.update(answer_params)
     respond_with @answer
   end
 
   def destroy
-    respond_with(@answer.destroy) if current_user.author_of?(@answer)
+    respond_with(@answer.destroy)
   end
 
   def best
-    return unless current_user.author_of?(@answer.question)
     respond_with(@answer.make_best)
   end
 

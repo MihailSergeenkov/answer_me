@@ -2,17 +2,18 @@
   *best_answer(answer)
     .panel-heading.col-md-12
       .text-left.col-md-6
-        - if user_signed_in? && current_user.author_of?(answer.question)
+        - if can?(:best, answer)
           td
             - if answer.best
               p &#9829;
             - else
               = link_to 'Make Best', best_answer_path(answer), method: :post, class: 'make-best-answer-link', remote: true
-      - if user_signed_in? && current_user.author_of?(answer)
-        .text-right.col-md-6
-          td          
+      .text-right.col-md-6
+        td
+          - if can?(:update, answer)
             = link_to 'Edit your answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
-          td
+        td
+          - if can?(:destroy, answer)
             = link_to 'Delete your answer', answer_path(answer), method: :delete, remote: true
     .panel-body.col-sm-1
       = render 'votes/form_for_answer', post: answer
