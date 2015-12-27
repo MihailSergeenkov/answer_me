@@ -24,13 +24,12 @@ class Ability
   def user_abilities
     quest_abilities
     can :create, [Question, Answer, Comment]
-    can :edit, [Question, Answer]
-    can :update, [Question, Answer], user: user
+    can :edit, [Question, Answer], user: user
+    can :update, [Question, Answer], user_id: user.id
     can :destroy, [Question, Answer, Comment], user: user
 
     alias_action :vote_up, :vote_down, :vote_reset, to: :vote
-    can :vote, [Question, Answer]
-    cannot :vote, [Question, Answer], user: user
+    can :vote, [Question, Answer] { |post| not user.author_of?(post) }
 
     can :best, Answer, question: { user: user }
 

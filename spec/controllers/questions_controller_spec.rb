@@ -52,6 +52,7 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'GET #edit' do
     sign_in_user
+    let(:question) { create(:question, user: @user) }
     before { get :edit, id: question }
 
     it 'assigns the requested question to @question' do

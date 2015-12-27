@@ -35,6 +35,12 @@ RSpec.describe Ability, type: :model do
     it { should be_able_to :create, Answer }
     it { should be_able_to :create, Comment }
 
+    it { should be_able_to :edit, question, user: user }
+    it { should_not be_able_to :edit, other_question, user: user }
+
+    it { should be_able_to :edit, answer, user: user }
+    it { should_not be_able_to :edit, other_answer, user: user }
+
     it { should be_able_to :update, question, user: user }
     it { should_not be_able_to :update, other_question, user: user }
 
