@@ -23,7 +23,7 @@ Style/Documentation:
     - 'lib/**/version.rb'
 
 Metrics/LineLength:
-  Max: 120
+  Max: 170
 
 Style/StringLiterals:
   Enabled: false

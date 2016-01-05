@@ -64,10 +64,10 @@ describe 'Profile API' do
 
       it "contains users json without me" do
         users.each do |user|
-          expect(response.body).to include_json(user.to_json)
+          expect(response.body).to include_json(user.to_json).at_path('profiles')
         end
 
-        expect(response.body).to_not include_json(me.to_json)
+        expect(response.body).to_not include_json(me.to_json).at_path('profiles')
       end
     end
   end
