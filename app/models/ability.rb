@@ -29,7 +29,7 @@ class Ability
     can :destroy, [Question, Answer, Comment], user: user
 
     alias_action :vote_up, :vote_down, :vote_reset, to: :vote
-    can :vote, [Question, Answer] { |post| not user.author_of?(post) }
+    can :vote, [Question, Answer] { |post| !user.author_of?(post) }
 
     can :best, Answer, question: { user: user }
 
