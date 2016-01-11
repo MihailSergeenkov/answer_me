@@ -41,6 +41,10 @@ gem 'omniauth-facebook'
 gem 'omniauth-vkontakte'
 gem 'omniauth-twitter'
 gem 'cancancan'
+gem 'doorkeeper'
+gem 'active_model_serializers'
+gem 'oj'
+gem 'oj_mimic_json'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -68,6 +72,7 @@ end
 group :test do
   # Use shoulda-matchers for tests
   gem 'shoulda-matchers'
+  gem 'json_spec'
 end
 
 group :development do
