@@ -13,36 +13,26 @@ RSpec.describe OmniauthCallbacksController, type: :controller do
   end
 
   describe 'GET #facebook' do
+    let(:do_request) { get :facebook }
+
     before do
       mock_auth_hash(:facebook)
       @request.env['omniauth.auth'] = OmniAuth.config.mock_auth[:facebook]
     end
 
-    it 'User already created' do
-      get :facebook
-      expect { get :facebook }.to_not change(User, :count)
-    end
-
-    it 'Create new user' do
-      expect { get :facebook }.to change(User, :count).by(1)
-    end
+    it_behaves_like 'Omni Auth User'
   end
 
   describe 'GET #twitter' do
     context 'User with email' do
+      let(:do_request) { get :twitter }
+
       before do
         mock_auth_hash(:twitter)
         @request.env['omniauth.auth'] = auth_twitter
       end
 
-      it 'User already created' do
-        get :twitter
-        expect { get :twitter }.to_not change(User, :count)
-      end
-
-      it 'Create new user' do
-        expect { get :twitter }.to change(User, :count).by(1)
-      end
+      it_behaves_like 'Omni Auth User'
     end
 
     context 'User without email' do
