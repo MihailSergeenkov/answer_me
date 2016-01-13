@@ -6,14 +6,11 @@ RSpec.describe Question, type: :model do
   it_behaves_like 'Votable'
   it_behaves_like 'Attachable'
   it_behaves_like 'Commentable'
+  it_behaves_like 'Userable'
 
   context 'Validates title question' do
     it { should validate_presence_of :title }
     it { should validate_length_of(:title).is_at_most 100 }
-  end
-
-  context 'Validates user_id in question' do
-    it { should validate_presence_of :user_id }
   end
 
   context 'Validates body question' do
@@ -22,9 +19,5 @@ RSpec.describe Question, type: :model do
 
   context 'Validates association with answers' do
     it { should have_many(:answers).dependent :destroy }
-  end
-
-  context 'Validates association with user' do
-    it { should belong_to :user }
   end
 end

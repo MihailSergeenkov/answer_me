@@ -81,6 +81,11 @@ RSpec.describe QuestionsController, type: :controller do
         post :create, question: attributes_for(:question)
         expect(question.user_id).to eq user.id
       end
+
+      it 'publication object' do
+        expect(PrivatePub).to receive(:publish_to).with('/questions', anything)
+        post :create, question: attributes_for(:question)
+      end
     end
 
     context 'with invalid attributes' do
