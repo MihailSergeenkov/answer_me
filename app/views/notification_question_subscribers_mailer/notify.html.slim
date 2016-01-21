@@ -1,0 +1,5 @@
+h1 New answer for question
+= p @question.title
+
+- @question.answers.each do |answer|
+  = answer.body

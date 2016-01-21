@@ -7,6 +7,7 @@ RSpec.describe User do
   it { should have_many(:questions) }
   it { should have_many(:answers) }
   it { should have_many(:authorizations) }
+  it { should have_many(:subscriptions).dependent(:destroy) }
 
   describe '.find_for_oauth' do
     let!(:user) { create(:user) }

@@ -27,6 +27,7 @@ RSpec.describe Ability, type: :model do
     let(:answer) { create(:answer, user: user) }
     let(:other_question) { create(:question, user: other_user) }
     let(:other_answer) { create(:answer, user: other_user) }
+    let(:subscription) { create(:subscription, user: other_user, question: question) }
 
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }
@@ -71,5 +72,8 @@ RSpec.describe Ability, type: :model do
     it { should be_able_to :manage, create(:answer_attachment, attachable: answer), user: user }
     it { should_not be_able_to :manage, create(:question_attachment, attachable: other_question), user: user }
     it { should_not be_able_to :manage, create(:answer_attachment, attachable: other_answer), user: user }
+
+    it { should be_able_to :subscribe, Question }
+    it { should be_able_to :unsubscribe, Question }
   end
 end

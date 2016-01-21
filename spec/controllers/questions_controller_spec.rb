@@ -86,6 +86,11 @@ RSpec.describe QuestionsController, type: :controller do
         expect(PrivatePub).to receive(:publish_to).with('/questions', anything)
         post :create, question: attributes_for(:question)
       end
+
+      it 'owner subscribed for his question' do
+        expect(Subscription).to receive(:create).with(question: anything, user: anything)
+        post :create, question: attributes_for(:question)
+      end
     end
 
     context 'with invalid attributes' do
@@ -172,6 +177,35 @@ RSpec.describe QuestionsController, type: :controller do
       it 'delete question' do
         expect { delete :destroy, id: another_question }.to_not change(Question, :count)
       end
+    end
+  end
+
+  describe 'POST #subscribe' do
+    let!(:question) { create(:question) }
+    sign_in_user
+
+    it 'should create new subscribe' do
+      expect { post :subscribe, id: question, format: :js }.to change(question.subscriptions, :count).by(1)
+    end
+
+    it 'should render subscribe template' do
+      post :subscribe, id: question, format: :js
+      expect(response).to render_template :subscribe
+    end
+  end
+
+  describe 'POST #unsubscribe' do
+    sign_in_user
+    let(:question) { create(:question) }
+    let!(:subscription) { create(:subscription, user: @user, question: question) }
+
+    it 'should create new unsubscribe' do
+      expect { post :unsubscribe, id: question, format: :js }.to change(question.subscriptions, :count).by(-1)
+    end
+
+    it 'should render unsubscribe template' do
+      post :unsubscribe, id: question, format: :js
+      expect(response).to render_template :unsubscribe
     end
   end
 end

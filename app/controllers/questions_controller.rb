@@ -1,8 +1,9 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :load_question, only: [:show, :edit, :update, :destroy]
+  before_action :load_question, only: [:show, :edit, :update, :destroy, :subscribe, :unsubscribe]
   before_action :new_answer, only: :show
   after_action :publish_question, only: :create
+  after_action :subscribe_after_create, only: :create
 
   include Voted
 
@@ -38,6 +39,14 @@ class QuestionsController < ApplicationController
     respond_with(@question.destroy)
   end
 
+  def subscribe
+    respond_with(@question.subscribe(current_user))
+  end
+
+  def unsubscribe
+    respond_with(@question.unsubscribe(current_user))
+  end
+
   private
 
   def load_question
@@ -54,5 +63,9 @@ class QuestionsController < ApplicationController
 
   def publish_question
     PrivatePub.publish_to "/questions", question: { id: @question.id, title: @question.title, body: @question.body.truncate(20) }.to_json if @question.valid?
+  end
+
+  def subscribe_after_create
+    @question.subscribe(current_user)
   end
 end
