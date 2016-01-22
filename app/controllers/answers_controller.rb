@@ -2,7 +2,6 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :current_question, only: [:new, :create]
   before_action :load_answer, only: [:edit, :update, :destroy, :best]
-  after_action :notification_question_subscribers, only: [:create]
 
   include Voted
 
@@ -46,9 +45,5 @@ class AnswersController < ApplicationController
 
   def answer_params
     params.require(:answer).permit(:body, attachments_attributes: [:id, :file, :_destroy])
-  end
-
-  def notification_question_subscribers
-    NotificationQuestionSubscribersJob.perform_later(@question)
   end
 end

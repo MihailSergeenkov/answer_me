@@ -11,15 +11,27 @@ class Question < ActiveRecord::Base
 
   scope :created_yesterday, -> { where(created_at: Date.yesterday) }
 
+  after_create :subscribe_after_create
+
   def subscribe(user)
-    Subscription.create(question: self, user: user) unless question_subscribtion(user)
+    Subscription.create(question: self, user: user) unless subscribed?(user)
   end
 
   def unsubscribe(user)
-    question_subscribtion(user).destroy if question_subscribtion(user)
+    question_subscribtion(user).destroy if subscribed?(user)
   end
+
+  def subscribed?(user)
+    Subscription.find_by(question: self, user: user) ? true : false
+  end
+
+  private
 
   def question_subscribtion(user)
     Subscription.find_by(question: self, user: user)
+  end
+
+  def subscribe_after_create
+    subscribe(user)
   end
 end

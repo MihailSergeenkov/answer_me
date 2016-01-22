@@ -4,8 +4,8 @@ class NotificationQuestionSubscribersMailer < ApplicationMailer
   #
   #   en.notification_question_owner_mailer.notify.subject
   #
-  def notify(subscription)
-    @question = subscription.question
+  def notify(subscription, answer)
+    @answer = answer
 
     mail to: subscription.user.email
   end

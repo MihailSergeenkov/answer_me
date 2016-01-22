@@ -3,7 +3,6 @@ class QuestionsController < ApplicationController
   before_action :load_question, only: [:show, :edit, :update, :destroy, :subscribe, :unsubscribe]
   before_action :new_answer, only: :show
   after_action :publish_question, only: :create
-  after_action :subscribe_after_create, only: :create
 
   include Voted
 
@@ -63,9 +62,5 @@ class QuestionsController < ApplicationController
 
   def publish_question
     PrivatePub.publish_to "/questions", question: { id: @question.id, title: @question.title, body: @question.body.truncate(20) }.to_json if @question.valid?
-  end
-
-  def subscribe_after_create
-    @question.subscribe(current_user)
   end
 end

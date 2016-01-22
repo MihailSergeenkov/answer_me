@@ -52,11 +52,6 @@ RSpec.describe AnswersController, type: :controller do
         post :create, question_id: question, format: :js, answer: attributes_for(:answer)
         expect(answer.user_id).to eq user.id
       end
-
-      it 'send new answer to question subscribers' do
-          expect(NotificationQuestionSubscribersJob).to receive(:perform_later).with(answer.question)
-          post :create, question_id: question, format: :js, answer: attributes_for(:answer)
-      end
     end
 
     context 'with invalid attributes' do

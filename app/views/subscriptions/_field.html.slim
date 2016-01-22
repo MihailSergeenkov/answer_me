@@ -1,7 +1,7 @@
 .subscription.text-center
   br
-  - if can?(:subscribe, post) or can?(:unsubscribe, post)
-    - if subscribed?(post)
+  - if can?(:subscribe, post) || can?(:unsubscribe, post)
+    - if post.subscribed?(current_user)
       = link_to 'Unsubscribe', unsubscribe_question_path(post), class: 'btn btn-xs btn-primary', remote: true, method: :post
     - else
       = link_to 'Subscribe', subscribe_question_path(post), class: 'btn btn-xs btn-primary', remote: true, method: :post 

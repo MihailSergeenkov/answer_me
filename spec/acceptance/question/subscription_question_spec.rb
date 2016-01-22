@@ -9,7 +9,6 @@ feature 'Subscribe for question', %q{
   given!(:user) { create(:user) }
   given(:question) { create(:question) }
   given(:user_question) { create(:question, user: user) }
-  given!(:subscription) { create(:subscription, question: user_question, user: user) }
 
   describe 'Autenticated user' do
     before do

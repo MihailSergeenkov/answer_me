@@ -1,9 +1,15 @@
 class NotificationQuestionSubscribersJob < ActiveJob::Base
   queue_as :default
 
-  def perform(question)
-    question.subscriptions.each do |subscription|
-      NotificationQuestionSubscribersMailer.notify(subscription).deliver_later
+  def perform(answer)
+    all_subscriptions(answer).find_each do |subscription|
+      NotificationQuestionSubscribersMailer.notify(subscription, answer).deliver_later
     end
+  end
+
+  private
+
+  def all_subscriptions(answer)
+    answer.question.subscriptions
   end
 end

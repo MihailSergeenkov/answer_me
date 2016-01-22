@@ -27,8 +27,12 @@ RSpec.describe Question, type: :model do
     let(:question) { create(:question) }
 
     context 'not subscribed' do
-      it 'should create subscription' do
+      it 'should create subscription question' do
         expect { question.subscribe(user) }.to change(question.subscriptions, :count).by(1)
+      end
+
+      it 'should create subscription user' do
+        expect { question.subscribe(user) }.to change(user.subscriptions, :count).by(1)
       end
     end
 
@@ -46,8 +50,43 @@ RSpec.describe Question, type: :model do
     let(:question) { create(:question) }
     let!(:subscription) { create(:subscription, user: user, question: question) }
 
-    it 'should unsubscribe' do
+    it 'should unsubscribe question' do
       expect { question.unsubscribe(user) }.to change(question.subscriptions, :count).by(-1)
+    end
+
+    it 'should unsubscribe user' do
+      expect { question.unsubscribe(user) }.to change(user.subscriptions, :count).by(-1)
+    end
+  end
+
+  describe '#subscribed?' do
+    let!(:user) { create(:user) }
+    let(:question) { create(:question) }
+
+    context 'subscribed' do
+      let!(:subscription) { create(:subscription, user: user, question: question) }
+
+      it 'true' do
+        subscribtion = question.subscribed?(user)
+        expect(subscribtion).to be true
+      end
+    end
+
+    context 'not subscribed' do
+      it 'false' do
+        subscribtion = question.subscribed?(user)
+        expect(subscribtion).to be false
+      end
+    end
+  end
+
+  describe 'create subscribtion for owner after create question' do
+    let(:user) { create(:user) }
+    subject { build(:question, user: user) }
+
+    it 'owner subscribed for his question' do
+      expect(Subscription).to receive(:create).with(question: anything, user: anything)
+      subject.save!
     end
   end
 end

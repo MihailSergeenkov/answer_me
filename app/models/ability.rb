@@ -35,6 +35,9 @@ class Ability
 
     can :manage, Attachment, attachable: { user: user }
 
-    can [:subscribe, :unsubscribe], Question
+    can :subscribe, Question
+    can :unsubscribe, Question do |question|
+      question.subscribed?(user)
+    end
   end
 end

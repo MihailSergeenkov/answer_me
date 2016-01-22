@@ -86,11 +86,6 @@ RSpec.describe QuestionsController, type: :controller do
         expect(PrivatePub).to receive(:publish_to).with('/questions', anything)
         post :create, question: attributes_for(:question)
       end
-
-      it 'owner subscribed for his question' do
-        expect(Subscription).to receive(:create).with(question: anything, user: anything)
-        post :create, question: attributes_for(:question)
-      end
     end
 
     context 'with invalid attributes' do
