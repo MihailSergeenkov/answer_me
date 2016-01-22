@@ -2,6 +2,8 @@
   = render 'question_errors'
   .col-sm-1
     = render 'votes/form_for_question', post: question
+    = render 'subscriptions/field', post: question
+          
   .col-sm-11
     h2
       = question.title

@@ -71,5 +71,8 @@ RSpec.describe Ability, type: :model do
     it { should be_able_to :manage, create(:answer_attachment, attachable: answer), user: user }
     it { should_not be_able_to :manage, create(:question_attachment, attachable: other_question), user: user }
     it { should_not be_able_to :manage, create(:answer_attachment, attachable: other_answer), user: user }
+
+    it { should be_able_to :subscribe, Question }
+    it { should be_able_to :unsubscribe, question, user: user }
   end
 end

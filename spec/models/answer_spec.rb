@@ -35,4 +35,15 @@ RSpec.describe Answer, type: :model do
       end
     end
   end
+
+  describe 'send mail after create answer' do
+    let(:user) { create(:user) }
+    let!(:question) { create(:question, user: user) }
+    let(:answer) { build(:answer, question: question) }
+
+    it 'send new answer to question subscribers' do
+      expect(NotificationQuestionSubscribersJob).to receive(:perform_later).with(answer)
+      answer.save!
+    end
+  end
 end

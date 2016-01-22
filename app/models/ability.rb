@@ -34,5 +34,10 @@ class Ability
     can :best, Answer, question: { user: user }
 
     can :manage, Attachment, attachable: { user: user }
+
+    can :subscribe, Question
+    can :unsubscribe, Question do |question|
+      question.subscribed?(user)
+    end
   end
 end
