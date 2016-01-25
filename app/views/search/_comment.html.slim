@@ -1,0 +1,6 @@
+td.col-sm-2
+  = object.class.name
+td.col-sm-2
+  = link_to object.id, question_path(from_comment(object)) 
+td.col-sm-6
+  = object.body.truncate(20)
