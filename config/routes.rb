@@ -12,6 +12,8 @@ Rails.application.routes.draw do
     post '/twitter' => 'omniauth_callbacks#twitter'
   end
 
+  get :search, to: 'search#search'
+
   concern :votable do
     member do
       patch :vote_up

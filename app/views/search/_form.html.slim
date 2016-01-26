@@ -1,0 +1,6 @@
+= form_tag search_path, method: 'get', class: 'navbar-form navbar-left'
+  .form-group
+    = text_field_tag :query, params[:query], class: 'form-control'
+  .form-group
+    = select_tag(:condition, options_for_select(Search::SEARCH_CONDITIONS, params[:condition]), class: 'form-control')
+  = submit_tag 'Search', class: 'btn btn-large btn-primary'

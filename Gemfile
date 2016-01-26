@@ -48,6 +48,8 @@ gem 'oj_mimic_json'
 gem 'sidekiq'
 gem 'sinatra', '>= 1.3.0', require: nil
 gem 'whenever'
+gem 'mysql2'
+gem 'thinking-sphinx'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

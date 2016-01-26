@@ -1,0 +1,10 @@
+.results.row
+  - if @results.blank?
+    h2 No results
+  - else
+    h2 Results
+    table.table.table-striped
+      tbody
+        - @results.each do |result|
+          tr          
+            = render "search/#{result.class.name.downcase}", object: result
