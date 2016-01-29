@@ -376,6 +376,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers
+  bundler
   byebug
   cancancan
   capistrano
