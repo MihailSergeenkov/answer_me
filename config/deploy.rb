@@ -67,3 +67,51 @@ namespace :private_pub do
 end
 
 after 'deploy:restart', 'private_pub:restart'
+
+namespace :ts do
+  desc 'Sphinx index'
+  task :index do
+    on roles(:app) do
+      within current_path do
+        with rails_env: fetch(:rails_env) do
+          execute :bundle, 'exec rake ts:index'
+        end
+      end
+    end
+  end
+
+  desc 'Sphinx start'
+  task :start do
+    on roles(:app) do
+      within current_path do
+        with rails_env: fetch(:rails_env) do
+          execute :bundle, 'exec rake ts:start'
+        end
+      end
+    end
+  end
+
+  desc 'Sphinx stop'
+  task :stop do
+    on roles(:app) do
+      within current_path do
+        with rails_env: fetch(:rails_env) do
+          execute :bundle, 'exec rake ts:stop'
+        end
+      end
+    end
+  end
+
+  desc 'Sphinx restart'
+  task :restart do
+    on roles(:app) do
+      within current_path do
+        with rails_env: fetch(:rails_env) do
+          execute :bundle, 'exec rake ts:restart'
+        end
+      end
+    end
+  end
+end
+
+after 'deploy:restart', 'private_pub:restart'
