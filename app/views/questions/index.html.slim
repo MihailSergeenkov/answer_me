@@ -3,7 +3,8 @@
 h2 Users quetions
 = button_to 'Ask question', new_question_path, method: :get, class: 'btn btn-large btn-primary'
 br
-.row.questions
-  = render @questions
+- cache collection_cache_key_for :question do
+  .row.questions
+    = render @questions
     
 = subscribe_to "/questions"

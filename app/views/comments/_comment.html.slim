@@ -1,8 +1,9 @@
-tr id="comment-#{comment.id}"
-  td
-    = comment.body
-  td
-    = comment.user.email
-  td
-    - if can?(:destroy, comment)
-      = link_to "Delete comment", comment_path(comment), method: :delete, remote: true
+- cache [logged, comment] do
+  tr id="comment-#{comment.id}"
+    td
+      = comment.body
+    td
+      = comment.user.email
+    td
+      - if can?(:destroy, comment)
+        = link_to "Delete comment", comment_path(comment), method: :delete, remote: true

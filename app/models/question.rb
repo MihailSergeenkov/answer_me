@@ -11,6 +11,8 @@ class Question < ActiveRecord::Base
 
   scope :created_yesterday, -> { where(created_at: Date.yesterday) }
 
+  default_scope { order(:id) }
+
   after_create :subscribe_after_create
 
   def subscribe(user)

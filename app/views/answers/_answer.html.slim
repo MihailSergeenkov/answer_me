@@ -1,33 +1,34 @@
-- if answer.persisted?
-  *best_answer(answer)
-    .panel-heading.col-md-12
-      .text-left.col-md-6
-        - if can?(:best, answer)
+- cache [logged, answer] do
+  - if answer.persisted?
+    *best_answer(answer)
+      .panel-heading.col-md-12
+        .text-left.col-md-6
+          - if can?(:best, answer)
+            td
+              - if answer.best
+                p &#9829;
+              - else
+                = link_to 'Make Best', best_answer_path(answer), method: :post, class: 'make-best-answer-link', remote: true
+        .text-right.col-md-6
           td
-            - if answer.best
-              p &#9829;
-            - else
-              = link_to 'Make Best', best_answer_path(answer), method: :post, class: 'make-best-answer-link', remote: true
-      .text-right.col-md-6
-        td
-          - if can?(:update, answer)
-            = link_to 'Edit your answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
-        td
-          - if can?(:destroy, answer)
-            = link_to 'Delete your answer', answer_path(answer), method: :delete, remote: true
-    .panel-body.col-sm-1
-      = render 'votes/form_for_answer', post: answer
-    .panel-body.col-md-11
-      p = answer.body
-      = render 'show_attachments', post: answer
-    = render 'answers/answer_errors'
-    = form_for answer, url: answer_path(answer), html: { class: 'form-horizontal edit-answer', role: 'form', id: "edit-answer-#{answer.id}" }, remote: true do |f|
-      .form-group
-        = f.label :body, class: 'col-sm-2 control-label'
-        .col-sm-4
-          = f.text_area :body, class: 'form-control'
-      .form-group
-        div class=['col-sm-offset-2','col-sm-10']
-          = f.submit 'Save changes', class: "btn btn-large btn-primary"
-    .panel-body.col-md-12
-      = render 'comments/comments', post: answer
+            - if can?(:update, answer)
+              = link_to 'Edit your answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+          td
+            - if can?(:destroy, answer)
+              = link_to 'Delete your answer', answer_path(answer), method: :delete, remote: true
+      .panel-body.col-sm-1
+        = render 'votes/form_for_answer', post: answer
+      .panel-body.col-md-11
+        p = answer.body
+        = render 'show_attachments', post: answer
+      = render 'answers/answer_errors'
+      = form_for answer, url: answer_path(answer), html: { class: 'form-horizontal edit-answer', role: 'form', id: "edit-answer-#{answer.id}" }, remote: true do |f|
+        .form-group
+          = f.label :body, class: 'col-sm-2 control-label'
+          .col-sm-4
+            = f.text_area :body, class: 'form-control'
+        .form-group
+          div class=['col-sm-offset-2','col-sm-10']
+            = f.submit 'Save changes', class: "btn btn-large btn-primary"
+      .panel-body.col-md-12
+        = render 'comments/comments', post: answer
