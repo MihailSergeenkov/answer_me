@@ -1,11 +1,12 @@
-.row
-  = render 'form', question: @question
+- cache [logged, @question] do
+  .row
+    = render 'form', question: @question
 
-.answers
-  h3 Answers
-  #best
-  = render @question.answers.ordered
-= render 'answers/new_form', question: @question, answer: @answer if user_signed_in?
+  .answers
+    h3 Answers
+    #best
+    = render @question.answers.ordered
+  = render 'answers/new_form', question: @question, answer: @answer if user_signed_in?
 
 = subscribe_to "/questions/#{@question.id}/answers"
 = subscribe_to "/questions/#{@question.id}/comments"
